@@ -1,0 +1,34 @@
+{
+  "name": "banka_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha tests/user/signup.test.js",
+    "build": "babel utils -d src",
+    "start": "node sever"
+  },
+  "author": "Wokoro Douye Samuel",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "jasmine": "^3.4.0",
+    "mocha": "^6.1.2",
+    "node-fetch": "^2.3.0",
+    "nyc": "^13.3.0"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "request": "^2.88.0"
+  }
+}
