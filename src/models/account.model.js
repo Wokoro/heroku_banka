@@ -46,40 +46,14 @@ class Account {
 }
 
 Account.store = {
-  ['12323443']: {
-    id: 1,
-    createdOn: '23/3/2019',
-    owner: 1,
-    type: 'savings',
-    status: 'active',
-    balance: '200000',
-    accountNumber: '12323443',
-  },
-  ['14352443']: {
-    id: 2,
-    createdOn: '23/3/2019',
-    owner: 2,
-    type: 'savings',
-    status: 'active',
-    balance: '200000',
-    accountNumber: '14352443',
-  },
-  ['12324354']: {
-    id: 3,
-    createdOn: '22/5/2019',
-    owner: 3,
-    type: 'savings',
-    status: 'active',
-    balance: '200000',
-  },
   ['10650895136']: {
-    id: 4,
-    createdOn: '22/5/2019',
-    owner: 3,
+    id: 3,
+    createdOn: '2019-04-11T18:17:21.622Z',
+    owner: 4,
+    accountNumber: 18758432889,
     type: 'savings',
-    status: 'active',
-    balance: '200000',
-    accountNumber: '10650895136',
+    status: 'domant',
+    balance: '20000',
   },
 };
 Account.currentIdCount = 2;
