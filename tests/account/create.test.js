@@ -8,7 +8,7 @@ const AccountModel = require('../../src/models/account.model');
 
 chai.use(chaiHttp);
 describe('Bank account creation tests: POST /accounts', () => {
-  const token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJkb3V5ZXNhbXVlbEB5YWhvby5jb20iLCJ0eXBlIjpmYWxzZSwiZmlyc3ROYW1lIjoiZG91eWUiLCJsYXN0TmFtZSI6InNhbXVlbCIsImlhdCI6MTU1NDk2NTIyOSwiZXhwIjoxNTU1MDA4NDI5LCJpc3MiOiJBdXRob3JpemF0aW9uL1Jlc291cmNlL0JhbmthU2VydmVyIiwic3ViIjoiIn0.JZS6KTCrT-VwF32OOJEZRKQWit5heAXnNqLR9jdUStY6xkLZ5wtjL_uqX3HNhFsjgfUEwZTdIKySmLukDfVprg';
+  const token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJ3b2tvcm9zYW11ZWxAeWFob28uY29tIiwiaXNBZG1pbiI6ImZhbHNlIiwiZmlyc3ROYW1lIjoic2FtdWVsIiwibGFzdE5hbWUiOiJkb3V5ZSIsImlhdCI6MTU1NTAwNjMwNiwiZXhwIjoxNTU1MDQ5NTA2LCJpc3MiOiJBdXRob3JpemF0aW9uL1Jlc291cmNlL0JhbmthU2VydmVyIiwic3ViIjoiIn0.FYzQ_VbT6sgSsowZfMTczf8KwzfXX9tXsPgSzBgiyjFqWPVhrVwiCABf9oUYCB6uiufLoqdviQ297XWogmA80w';
   describe('tests for successful account creation', () => {
     let res = {};
     after(() => { server.close(); });
