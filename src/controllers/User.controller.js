@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-expressions */
-const Utils = require('../../utils/utils');
+const { generateToken } = require('../../utils/utils');
 const User = require('../models/user.model');
 
 
 module.exports = {
   create(req, res) {
-    let body = {};
-    body = req.body.email ? req.body : req.query;
+    const { body } = req;
     if (body.lastName && body.firstName && body.email && (body.password === body.confirmPassword)) {
       const user = new User(
         body.lastName, body.firstName, body.email,
@@ -18,7 +17,9 @@ module.exports = {
         status: 200,
         data: {
           id,
-          token: Utils.generateToken({ id, email: body.email }, body.email),
+          token: generateToken({
+            id, email: user.email, type: user.isAdmin, firstName: user.firstName, lastName: user.lastName,
+          }, user.email),
           firstName: body.firstName,
           lastName: body.lastName,
           email: body.email,
@@ -36,5 +37,19 @@ module.exports = {
         message: 'confirmPassword and password fields do not match',
       });
     }
+  },
+  signin(req, res) {
+    const { user } = res;
+    res.send({
+      status: 200,
+      data: {
+        token: generateToken({ id: user.id, email: user.email }, user.email),
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+      },
+    });
   },
 };
