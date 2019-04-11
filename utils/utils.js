@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 
+
 const privateFilePath = path.join(__dirname, 'private.key');
 const publicFilePath = path.join(__dirname, 'public.key');
 const privateKey = fs.readFileSync(privateFilePath, 'utf8');
@@ -39,7 +40,7 @@ module.exports = {
   hashPassword(password) {
     return bcrypt.hashSync(password, 10);
   },
-  verifyPassword(password, hashedPassword, callback) {
-    bcrypt.compare(password, hashedPassword, callback);
+  verifyPassword(password, hashedPassword) {
+    return bcrypt.compareSync(password, hashedPassword);
   },
 };

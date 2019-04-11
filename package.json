@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha tests/user/signup.test.js",
-    "build": "babel utils -d src",
-    "start": "node sever"
+    "test": "nyc mocha tests/user/*.test.js",
+    "build": "babel utils src -d build",
+    "start": "node server"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
