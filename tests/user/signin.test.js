@@ -39,7 +39,7 @@ describe('User signin tests: POST /auth/signin', () => {
       expect(res.body.data).to.have.property('email');
     });
   });
-  describe('unsuccessful signin', () => {
+  describe('tests for unsuccessful signin', () => {
     after(() => { server.close(); });
     let res = {};
     before(async () => {

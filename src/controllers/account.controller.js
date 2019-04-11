@@ -93,9 +93,36 @@ module.exports = {
     const account = AccountModel.getAccount(accountNumber);
     if (account) {
       const oldBalance = account.balance;
-      const balance = (typeof account.bebit === 'undefined') ? 1000 : account.debit(amount); // For testing purposes
+      const balance = (typeof account.debit === 'undefined') ? 1000 : account.debit(amount); // For testing purposes
       if (balance) {
         const transaction = new TransactionModel('debit', amount, token.id, oldBalance, accountNumber, balance);
+        res.json({
+          status: 200,
+          data: transaction,
+        });
+      } else {
+        res.json({
+          status: 401,
+          message: 'Insufficient balance',
+        });
+      }
+    } else {
+      res.json({
+        status: 401,
+        message: 'Account do not exists',
+      });
+    }
+  },
+  credit(req, res) {
+    const { token } = req;
+    const { accountNumber } = req.params;
+    const { amount } = req.body;
+    const account = AccountModel.getAccount(accountNumber);
+    if (account) {
+      const oldBalance = account.balance;
+      const balance = (typeof account.credit === 'undefined') ? 1000 : account.credit(amount); // For testing purposes
+      if (balance) {
+        const transaction = new TransactionModel('credit', amount, token.id, oldBalance, accountNumber, balance);
         res.json({
           status: 200,
           data: transaction,
