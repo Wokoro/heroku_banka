@@ -34,11 +34,17 @@ module.exports = {
   generateToken(payload) {
     return jwt.sign(payload, privateKey, signOptions);
   },
-  verifyToken(token) {
-    try {
-      return jwt.verify(token, publicKey, verifyOptions);
-    } catch (err) {
-      return false;
+  verifyToken(req, res, next) {
+    const token = req.headers.authorization.split(' ')[1];
+    const issureToken = jwt.verify(token, publicKey, verifyOptions);
+    if (issureToken) {
+      req.token = issureToken;
+      next();
+    } else {
+      res.json({
+        status: 401,
+        message: 'Invalid token',
+      });
     }
   },
   hashPassword(password) {

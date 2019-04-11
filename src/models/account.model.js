@@ -17,18 +17,23 @@ class Account {
     return this.id;
   }
 
+  toggleState() {
+    this.status = this.status === 'active' ? 'domant' : 'active';
+    return this.status;
+  }
+
   static exits(accountNumber) {
     return !!Account.store[accountNumber];
   }
 
   static save(key, val) {
     Object.assign(Account.store, {
-      [key]: { ...val },
+      [key]: val,
     });
   }
 
   static getAccount(accountNumber) {
-    return Account.store[accountNumber];
+    return Account.store[accountNumber] ? Account.store[accountNumber] : false;
   }
 
   static genAccountNumber() {
@@ -44,6 +49,7 @@ Account.store = {
     type: 'savings',
     status: 'active',
     balance: '200000',
+    accountNumber: '12323443',
   },
   ['14352443']: {
     id: 2,
@@ -52,6 +58,7 @@ Account.store = {
     type: 'savings',
     status: 'active',
     balance: '200000',
+    accountNumber: '14352443',
   },
   ['12324354']: {
     id: 3,
@@ -60,6 +67,15 @@ Account.store = {
     type: 'savings',
     status: 'active',
     balance: '200000',
+  },
+  ['10650895136']: {
+    id: 4,
+    createdOn: '22/5/2019',
+    owner: 3,
+    type: 'savings',
+    status: 'active',
+    balance: '200000',
+    accountNumber: '10650895136',
   },
 };
 Account.currentIdCount = 2;

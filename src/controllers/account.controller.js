@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-expressions */
-const Utils = require('../../utils/utils');
 const Account = require('../models/account.model');
 
 
 module.exports = {
   create(req, res) {
-    const token = Utils.verifyToken(req.token);
+    const { token } = req;
     if (!token) {
       res.json({
         status: 401,
-        message: 'login required',
+        message: 'Invalid User token',
       });
     } else {
       const { body } = req;
@@ -33,6 +32,26 @@ module.exports = {
           message: 'required fields empty',
         });
       }
+    }
+  },
+  changeState(req, res) {
+    const { accountNumber } = req.params;
+
+    const account = Account.getAccount(accountNumber);
+    if (account) {
+      const state = typeof account.toggleState === 'undefined' ? 'changed' : account.toggleState(); // for testing purposes;
+      res.json({
+        status: 200,
+        data: {
+          accountNumber: account.accountNumber,
+          status: state,
+        },
+      });
+    } else {
+      res.json({
+        status: 401,
+        message: 'Account do not exists',
+      });
     }
   },
 };

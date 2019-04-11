@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 // Routes defination
 app.use('/api/v1/auth', UserRoutes);
-app.use('/api/v1/accounts', AccountRoutes);
+app.use('/api/v1/', AccountRoutes);
 
 // Error caching urls
 app.use((req, res, next) => {
