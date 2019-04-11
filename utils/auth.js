@@ -1,33 +1,17 @@
-const UserModel = require('../src/models/user.model');
-const Utils = require('../utils/utils');
 
-module.exports = {
-  authenticate(req, res) {
-    let body = {};
-    body = req.body.email ? req.body : req.query;
+module.exports = (req, res, next) => {
+  const bearerHeader = req.headers.authorization;
 
-    const user = UserModel.getUser(body.email);
+  if (bearerHeader) {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
 
-    // const password = Utils.verifyPassword(req.body.password, user.password);
-    const password = user ? Utils.verifyPassword(body.password, user.password) : false;
-
-    if (user && password) {
-      res.send({
-        status: 200,
-        data: {
-          token: Utils.generateToken({ id: user.id, email: user.email }, user.email),
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          password: user.password,
-        },
-      });
-    } else {
-      res.send({
-        status: 401,
-        message: 'User name or password incorrect',
-      });
-    }
-  },
+    req.token = bearerToken;
+    next();
+  } else {
+    res.json({
+      status: 401,
+      message: 'Access denied login required',
+    });
+  }
 };

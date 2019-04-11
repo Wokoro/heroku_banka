@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
-const Utils = require('../../utils/utils');
+const bcrypt = require('bcrypt');
 
 class User {
   constructor(lastName, firstName, email, password, phoneNumber, type, isAdmin) {
@@ -8,11 +8,11 @@ class User {
     this.lastName = lastName;
     this.firstName = firstName;
     this.email = email;
-    this.password = Utils.hashPassword(password);
+    this.password = bcrypt.hashSync(password, 10);
     this.phoneNumber = phoneNumber;
     this.type = type;
     this.phoneNumeber = phoneNumber;
-    this.idAdmin = isAdmin;
+    this.isAdmin = isAdmin;
   }
 
   getId() {

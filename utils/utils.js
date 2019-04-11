@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 
+const UserModel = require('../src/models/user.model');
+
 
 const privateFilePath = path.join(__dirname, 'private.key');
 const publicFilePath = path.join(__dirname, 'public.key');
@@ -29,18 +31,34 @@ const verifyOptions = {
   algorithm: [`[${algorithm}`],
 };
 module.exports = {
-  generateToken(payload, audience) {
-    signOptions.audience = audience;
+  generateToken(payload) {
     return jwt.sign(payload, privateKey, signOptions);
   },
-  verifyToken(token, audience) {
-    verifyOptions.audience = audience;
-    return jwt.verify(token, publicKey, verifyOptions);
+  verifyToken(token) {
+    try {
+      return jwt.verify(token, publicKey, verifyOptions);
+    } catch (err) {
+      return false;
+    }
   },
   hashPassword(password) {
     return bcrypt.hashSync(password, 10);
   },
   verifyPassword(password, hashedPassword) {
     return bcrypt.compareSync(password, hashedPassword);
+  },
+  authenticate(req, res, next) {
+    const { body } = req;
+    const user = UserModel.getUser(body.email);
+    const password = user ? bcrypt.compareSync(body.password, user.password) : false;
+    if (user && password) {
+      res.user = user;
+      next();
+    } else {
+      res.send({
+        status: 401,
+        message: 'User name or password incorrect',
+      });
+    }
   },
 };
