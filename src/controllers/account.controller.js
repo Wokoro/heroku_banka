@@ -71,4 +71,18 @@ module.exports = {
       });
     }
   },
+  index(req, res) {
+    const accounts = Account.getAccounts();
+    if (accounts) {
+      res.json({
+        status: 200,
+        accounts,
+      });
+    } else {
+      res.json({
+        status: 401,
+        message: 'No accounts created',
+      });
+    }
+  },
 };
