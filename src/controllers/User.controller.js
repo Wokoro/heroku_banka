@@ -9,21 +9,27 @@ module.exports = {
     if (body.lastName && body.firstName && body.email && (body.password === body.confirmPassword)) {
       const user = new User(
         body.lastName, body.firstName, body.email,
-        body.password, body.phoneNumber, body.type, false,
+        body.password, body.phoneNumber, body.type, body.isAdmin,
       );
       User.save(user.email, user);
       const { id } = user;
+      const token = generateToken({
+        id,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
       res.send({
         status: 200,
         data: {
           id,
-          token: generateToken({
-            id, email: user.email, type: user.isAdmin, firstName: user.firstName, lastName: user.lastName,
-          }, user.email),
-          firstName: body.firstName,
-          lastName: body.lastName,
-          email: body.email,
-          phoneNumber: body.phoneNumber,
+          token,
+          idAdmin: user.isAdmin,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
         },
       });
     } else if (!body.lastName || !body.firstName || !body.email) {
