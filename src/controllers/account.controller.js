@@ -54,4 +54,21 @@ module.exports = {
       });
     }
   },
+  delete(req, res) {
+    const { accountNumber } = req.params;
+    const account = Account.getAccount(accountNumber);
+    if (account) {
+      const accounts = Account.getAccounts();
+      delete accounts[accountNumber];
+      res.json({
+        status: 200,
+        message: 'Account Deleted',
+      });
+    } else {
+      res.json({
+        status: 401,
+        message: 'Account do not exists',
+      });
+    }
+  },
 };

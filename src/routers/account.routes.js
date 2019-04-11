@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post('/accounts', verifyToken, AccountController.create);
 router.patch('/account/:accountNumber', verifyToken, authAdmin, AccountController.changeState);
+router.delete('/account/:accountNumber', verifyToken, authAdmin, AccountController.delete);
 
 
 module.exports = router;
