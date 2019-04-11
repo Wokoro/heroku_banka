@@ -17,6 +17,20 @@ class Account {
     return this.id;
   }
 
+  getbalance() {
+    return this.balance;
+  }
+
+  debit(val) {
+    let balance = Number(this.balance);
+    const debitAmt = Number(val);
+    const value = balance < debitAmt ? false : balance -= debitAmt;
+    if (value) {
+      this.balance = balance.toString();
+    }
+    return value;
+  }
+
   toggleState() {
     this.status = this.status === 'active' ? 'domant' : 'active';
     return this.status;
@@ -30,6 +44,7 @@ class Account {
     Object.assign(Account.store, {
       [key]: val,
     });
+    return Account.store;
   }
 
   static getAccount(accountNumber) {
