@@ -8,13 +8,13 @@ const server = require('../../server');
 
 chai.use(chaiHttp);
 
-describe('Debit transaction tests POST /transaction/<account-number>/debit', () => {
+describe('Credit transaction tests POST /transaction/<account-number>/credit', () => {
   const token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJ3b2tvcm9zYW11ZWxAeWFob28uY29tIiwiaXNBZG1pbiI6InRydWUiLCJmaXJzdE5hbWUiOiJzYW11ZWwiLCJsYXN0TmFtZSI6ImRvdXllIiwiaWF0IjoxNTU1MDA0ODc4LCJleHAiOjE1NTUwNDgwNzgsImlzcyI6IkF1dGhvcml6YXRpb24vUmVzb3VyY2UvQmFua2FTZXJ2ZXIiLCJzdWIiOiIifQ.DajG62_EPwLe2xmfQ7oBkgoHP3vCSInyqeL6rpYV97XuXvCzzHKWMwKvAJIGMUfdCdw2XjJw8o-McGSia3TK1w';
-  describe('tests successful debit operation', () => {
+  describe('tests for successful credit operation', () => {
     let res = {};
     after(() => { server.close(); });
     before(async () => {
-      res = await chai.request(server).post('/api/v1/transactions/10650895136/debit').set('Authorization', token).send({ amount: 200 });
+      res = await chai.request(server).post('/api/v1/transactions/10650895136/credit').set('Authorization', token).send({ amount: 200 });
     });
     it('Status 200', () => {
       expect(res.body).to.have.status(200);

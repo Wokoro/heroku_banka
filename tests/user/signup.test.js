@@ -49,7 +49,7 @@ describe('Create user account tests: POST /auth/signup', () => {
       expect(UserModel.exits(res.body.data.email)).to.be.true;
     });
   });
-  describe('unsuccessful signup', () => {
+  describe('tests for unsuccessful signup', () => {
     let res = {};
     before(async () => {
       const params = {

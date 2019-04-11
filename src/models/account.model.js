@@ -31,6 +31,14 @@ class Account {
     return value;
   }
 
+  credit(val) {
+    let balance = Number(this.balance);
+    const debitAmt = Number(val);
+    balance += debitAmt;
+    this.balance = balance.toString();
+    return balance;
+  }
+
   toggleState() {
     this.status = this.status === 'active' ? 'domant' : 'active';
     return this.status;
