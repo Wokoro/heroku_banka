@@ -36,6 +36,10 @@ class Account {
     return Account.store[accountNumber] ? Account.store[accountNumber] : false;
   }
 
+  static getAccounts() {
+    return Account.store;
+  }
+
   static genAccountNumber() {
     return Math.floor(Math.random() * (9999999999 - 1111111111) + 9999999999);
   }
