@@ -46,7 +46,7 @@ describe('Create user account tests: POST /auth/signup', () => {
       expect(res.body.data).to.have.property('email');
     });
     it('User account should be stored', () => {
-      expect(UserModel.exits(res.body.data.email)).to.be.true;
+      expect(UserModel.findByEmail(res.body.data.email)).to.not.be.undefined;
     });
   });
   describe('tests for unsuccessful signup', () => {

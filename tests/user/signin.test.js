@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-expressions */
-
 const chai = require('chai');
 
 const { expect } = chai;
 const chaiHttp = require('chai-http');
+const UserModel = require('../../src/models/user.model');
 
 const server = require('../../server');
 
@@ -13,10 +13,13 @@ describe('User signin tests: POST /auth/signin', () => {
   after(() => { server.close(); });
   describe('tests for successful signin', () => {
     let res = {};
+
     before(async () => {
+      const user = new UserModel('douye', 'samuel', 'wokorosamuel@yahoo.com', 'samuel', '09066027359', 'client', true);
+      UserModel.save(user);
       const params = {
         email: 'wokorosamuel@yahoo.com',
-        password: 'password',
+        password: 'samuel',
       };
       res = await chai.request(server).post('/api/v1/auth/signin').send(params);
     });

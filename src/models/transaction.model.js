@@ -1,10 +1,11 @@
+/* eslint-disable no-new */
 /* eslint-disable no-useless-computed-key */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
 
 class Transaction {
   constructor(type, amount, cashier, oldBalance, accountNumber, newBalance) {
-    this.id = ++Transaction.currentIdCount;
+    this.id = ++Transaction.index;
     this.createdOn = new Date();
     this.accountNumber = accountNumber;
     this.type = type;
@@ -14,36 +15,27 @@ class Transaction {
     this.newBalance = newBalance;
   }
 
-  getId() {
-    return this.id;
+  static save(val) {
+    Transaction.store.push(val);
   }
 
-  static save(key, val) {
-    Object.assign(Transaction.store, {
-      [key]: val,
-    });
+  static findById(id) {
+    return Transaction.store.find(transaction => transaction.id === id);
   }
 
-  static getTransaction(id) {
-    return Transaction.store[id] ? Transaction.store[id] : false;
-  }
-
-  static getTransactions() {
+  static all() {
     return Transaction.store;
   }
 }
 
-Transaction.store = {
-  ['1']: {
-    id: 3,
-    createdOn: '2019-04-11T18:17:21.622Z',
-    owner: 4,
-    accountNumber: 18758432889,
-    type: 'savings',
-    status: 'domant',
-    balance: '20000',
-  },
-};
-Transaction.currentIdCount = 2;
+
+Transaction.store = [];
+Transaction.index = 3;
+
+// Initialize Transaction model
+Transaction.store.push(new Transaction('debit', 4000, 1, 9000, 5748394867, 50000));
+Transaction.store.push(new Transaction('credit', 3000, 2, 10000, 8372659845, 12000));
+Transaction.store.push(new Transaction('debit', 4000, 3, 9000, 9483784738, 50000));
+
 
 module.exports = Transaction;

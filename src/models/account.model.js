@@ -1,13 +1,15 @@
+/* eslint-disable no-new */
+/* eslint-disable radix */
 /* eslint-disable no-useless-computed-key */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
 
 class Account {
-  constructor(owner, type, status, balance) {
-    this.id = ++Account.currentIdCount;
+  constructor(owner, type, status, balance, accountNumber) {
+    this.id = ++Account.index;
     this.createdOn = new Date();
     this.owner = owner;
-    this.accountNumber = Account.genAccountNumber();
+    this.accountNumber = typeof accountNumber === 'undefined' ? Account.genAccountNumber() : accountNumber;
     this.type = type;
     this.status = status;
     this.balance = balance;
@@ -44,23 +46,20 @@ class Account {
     return this.status;
   }
 
-  static exits(accountNumber) {
-    return !!Account.store[accountNumber];
+  static save(val) {
+    Account.store.add(val);
   }
 
-  static save(key, val) {
-    Object.assign(Account.store, {
-      [key]: val,
-    });
-    return Account.store;
+  static delete(val) {
+    Account.store.delete(val);
   }
 
-  static getAccount(accountNumber) {
-    return Account.store[accountNumber] ? Account.store[accountNumber] : false;
+  static findByAccountNumber(accountNumber) {
+    return Account.all().find(account => account.accountNumber === parseInt(accountNumber));
   }
 
-  static getAccounts() {
-    return Account.store;
+  static all() {
+    return [...Account.store];
   }
 
   static genAccountNumber() {
@@ -68,17 +67,10 @@ class Account {
   }
 }
 
-Account.store = {
-  ['10650895136']: {
-    id: 3,
-    createdOn: '2019-04-11T18:17:21.622Z',
-    owner: 4,
-    accountNumber: 18758432889,
-    type: 'savings',
-    status: 'domant',
-    balance: '20000',
-  },
-};
-Account.currentIdCount = 2;
+Account.index = 0;
+Account.store = new Set();
+Account.store.add(new Account(1, 'active', 'savings', 30000, 5748394867));
+Account.store.add(new Account(2, 'domant', 'debit', 50000, 9483784738));
+Account.store.add(new Account(3, 'active', 'savings', 4000, 8372659845));
 
 module.exports = Account;
