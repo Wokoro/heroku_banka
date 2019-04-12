@@ -10,8 +10,9 @@ module.exports = {
       const user = new User(
         body.lastName, body.firstName, body.email,
         body.password, body.phoneNumber, body.type, body.isAdmin,
+
       );
-      User.save(user.email, user);
+      User.save(user);
       const { id } = user;
       const token = generateToken({
         id,

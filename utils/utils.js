@@ -14,7 +14,7 @@ const publicKey = fs.readFileSync(publicFilePath, 'utf8');
 
 const issuer = 'Authorization/Resource/BankaServer';
 const subject = '';
-const expiresIn = '12h';
+const expiresIn = '48h';
 const algorithm = 'RS256';
 
 const signOptions = {
@@ -55,7 +55,8 @@ module.exports = {
   },
   authenticate(req, res, next) {
     const { body } = req;
-    const user = UserModel.getUser(body.email);
+    const user = UserModel.findByEmail(body.email);
+
     const password = user ? bcrypt.compareSync(body.password, user.password) : false;
     if (user && password) {
       res.user = user;

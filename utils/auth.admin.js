@@ -1,7 +1,7 @@
 
 module.exports = (req, res, next) => {
   const { token } = req;
-  if (JSON.parse(token.isAdmin)) {
+  if (token.isAdmin) {
     next();
   } else {
     res.json({

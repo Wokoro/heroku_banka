@@ -8,7 +8,7 @@ const AccountModel = require('../../src/models/account.model');
 
 chai.use(chaiHttp);
 describe('Bank account creation tests: POST /accounts', () => {
-  const token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJ3b2tvcm9zYW11ZWxAeWFob28uY29tIiwiaXNBZG1pbiI6ImZhbHNlIiwiZmlyc3ROYW1lIjoic2FtdWVsIiwibGFzdE5hbWUiOiJkb3V5ZSIsImlhdCI6MTU1NTAwNjMwNiwiZXhwIjoxNTU1MDQ5NTA2LCJpc3MiOiJBdXRob3JpemF0aW9uL1Jlc291cmNlL0JhbmthU2VydmVyIiwic3ViIjoiIn0.FYzQ_VbT6sgSsowZfMTczf8KwzfXX9tXsPgSzBgiyjFqWPVhrVwiCABf9oUYCB6uiufLoqdviQ297XWogmA80w';
+  const token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ3b2tvcm9zYW11ZWxAeWFob28uY29tIiwiaXNBZG1pbiI6InRydWUiLCJmaXJzdE5hbWUiOiJzYW11ZWwiLCJsYXN0TmFtZSI6ImRvdXllIiwiaWF0IjoxNTU1MDQ4MzkzLCJleHAiOjE1NTUyMjExOTMsImlzcyI6IkF1dGhvcml6YXRpb24vUmVzb3VyY2UvQmFua2FTZXJ2ZXIiLCJzdWIiOiIifQ.S-d7og-kaTFHR3GSlwUzQqs-vJRjCaE_g6PRVE9GGiTeG1-Umqs-8q5dZzH3hq2A1ns0L5-3Iw4r4p6QSLH-iQ';
   describe('tests for successful account creation', () => {
     let res = {};
     after(() => { server.close(); });
@@ -48,7 +48,7 @@ describe('Bank account creation tests: POST /accounts', () => {
       expect(res.body.data).to.have.property('openingBalance');
     });
     it('Bank account must be created', () => {
-      expect(AccountModel.getAccount(res.body.data.accountNumber)).to.not.be.undefined;
+      expect(AccountModel.findByAccountNumber(res.body.data.accountNumber)).to.not.be.undefined;
     });
   });
   describe('tests for unsuccessful account creation', () => {
