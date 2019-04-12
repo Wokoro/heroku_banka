@@ -44,6 +44,7 @@ app.use((error, req, res) => {
 });
 
 const server = app.listen(3000, () => {
+  // eslint-disable-next-line no-console
   console.log('listening on port 3000');
 });
 

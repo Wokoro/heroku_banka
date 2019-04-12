@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Wokoro/banka_api.svg?branch=develop)](https://travis-ci.org/Wokoro/banka_api)
 # bankaApi
 
 This is an API for powering bank UI.
