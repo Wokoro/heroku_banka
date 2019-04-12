@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
-const AccountModel = require('../models/account.model');
+import AccountModel from '../models/account.model';
 
 
-module.exports = {
+export default {
   index(req, res) {
     const accounts = AccountModel.all();
     if (accounts) {

@@ -1,11 +1,16 @@
+/* eslint-disable import/first */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
-const express = require('express');
-const bodyParser = require('body-parser');
+import 'dotenv/config';
+import express from 'express';
+import bodyParser from 'body-parser';
 
-const UserRoutes = require('./src/routers/user.routes');
-const AccountRoutes = require('./src/routers/account.routes');
-const TransactionRoutes = require('./src/routers/transaction.routes');
+
+import UserRoutes from './src/routers/user.routes';
+import AccountRoutes from './src/routers/account.routes';
+import TransactionRoutes from './src/routers/transaction.routes';
+
 
 const app = express();
 
@@ -43,8 +48,9 @@ app.use((error, req, res) => {
   });
 });
 
-const server = app.listen(3000, () => {
+const server = app.listen(process.env.SERVER_PORT, () => {
+  // eslint-disable-next-line no-console
   console.log('listening on port 3000');
 });
 
-module.exports = server;
+export default server;

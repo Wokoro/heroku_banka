@@ -1,7 +1,42 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=8d244bd430ffa28ad2741d5fe368c8982098b6797da1b287be51e54fbcfb95c0
+
 language: node_js
 node_js:
   - "10.15.3"
+
+before_script:
+  - yarn global add nyc
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - npm run test:coveralls
+  - npm run test:coverage
+
+after_script:
+  - ./cc-test-reporter after-build -t lcov --exit-code $TRAVIS_TEST_RESULT;
+
+
 # whitelist
 branches:
   only:
     - develop
+    
+#deployment
+#deploy:
+#  provider: heroku
+#  api_key: 759e2259-6ed8-413b-86d7-9122e01dc383
+#  app:
+#    develop: my-banka-api
+
+notifications:
+  emails: false
+
+  # single test suite, non-parallel build.
+
+
+
+

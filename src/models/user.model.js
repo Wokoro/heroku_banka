@@ -47,4 +47,4 @@ User.store = new Set();
 
 // User model mock data
 
-module.exports = User;
+export default User;

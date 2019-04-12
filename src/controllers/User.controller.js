@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-expressions */
-const { generateToken } = require('../../utils/utils');
-const User = require('../models/user.model');
+import { generateToken } from '../../utils/utils';
+
+import User from '../models/user.model';
 
 
-module.exports = {
+export default {
   create(req, res) {
     const { body } = req;
     if (body.lastName && body.firstName && body.email && (body.password === body.confirmPassword)) {

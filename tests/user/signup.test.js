@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-expressions */
-const chai = require('chai');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+
+import server from '../../server';
+import UserModel from '../../src/models/user.model';
 
 const { expect } = chai;
-const chaiHttp = require('chai-http');
-
-
-const server = require('../../server');
-const UserModel = require('../../src/models/user.model');
 
 chai.use(chaiHttp);
 

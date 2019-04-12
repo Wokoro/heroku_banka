@@ -1,7 +1,8 @@
-const TransactionModel = require('../models/transaction.model');
-const AccountModel = require('../models/account.model');
+import TransactionModel from '../models/transaction.model';
 
-module.exports = {
+import AccountModel from '../models/account.model';
+
+export default {
   index(req, res) {
     const transactions = TransactionModel.all();
     if (transactions) {

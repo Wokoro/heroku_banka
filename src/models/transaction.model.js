@@ -38,4 +38,4 @@ Transaction.store.push(new Transaction('credit', 3000, 2, 10000, 8372659845, 120
 Transaction.store.push(new Transaction('debit', 4000, 3, 9000, 9483784738, 50000));
 
 
-module.exports = Transaction;
+export default Transaction;
