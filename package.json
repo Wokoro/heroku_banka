@@ -8,8 +8,8 @@
     "build": "babel src -d build",
     "start-dev": "nodemon --exec babel-node server.js",
     "lint": "eslint **/*.js",
-    "coverall": "nyc report --reporter=text-lcov | coveralls",
-    "test:coverage": "nyc --reporter=text-lcov npm test"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc --reporter=text-lcov npm test"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
