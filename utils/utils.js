@@ -1,20 +1,15 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const fs = require('fs');
-const path = require('path');
-
-const UserModel = require('../src/models/user.model');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import UserModel from '../src/models/user.model';
 
 
-const privateFilePath = path.join(__dirname, 'private.key');
-const publicFilePath = path.join(__dirname, 'public.key');
-const privateKey = fs.readFileSync(privateFilePath, 'utf8');
-const publicKey = fs.readFileSync(publicFilePath, 'utf8');
+const privateKey = process.env.PRI_KEY.replace(/\\n/g, '\n');
+const publicKey = process.env.PUB_KEY.replace(/\\n/g, '\n');
 
 
 const issuer = 'Authorization/Resource/BankaServer';
 const subject = '';
-const expiresIn = '120h';
+const expiresIn = '400h';
 const algorithm = 'RS256';
 
 const signOptions = {
@@ -30,42 +25,39 @@ const verifyOptions = {
   expiresIn,
   algorithm: [`[${algorithm}`],
 };
-module.exports = {
-  generateToken(payload) {
-    return jwt.sign(payload, privateKey, signOptions);
-  },
-  verifyToken(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];
-    const issureToken = jwt.verify(token, publicKey, verifyOptions);
-    if (issureToken) {
-      req.token = issureToken;
-      next();
-    } else {
-      res.json({
-        status: 401,
-        message: 'Invalid token',
-      });
-    }
-  },
-  hashPassword(password) {
-    return bcrypt.hashSync(password, 10);
-  },
-  verifyPassword(password, hashedPassword) {
-    return bcrypt.compareSync(password, hashedPassword);
-  },
-  authenticate(req, res, next) {
-    const { body } = req;
-    const user = UserModel.findByEmail(body.email);
 
-    const password = user ? bcrypt.compareSync(body.password, user.password) : false;
-    if (user && password) {
-      res.user = user;
-      next();
-    } else {
-      res.send({
-        status: 401,
-        message: 'User name or password incorrect',
-      });
-    }
-  },
+const generateToken = payload => jwt.sign(payload, privateKey, signOptions);
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1];
+  const issureToken = jwt.verify(token, publicKey, verifyOptions);
+  if (issureToken) {
+    req.token = issureToken;
+    next();
+  } else {
+    res.json({
+      status: 401,
+      message: 'Invalid token',
+    });
+  }
+};
+const hashPassword = password => bcrypt.hashSync(password, 10);
+const verifyPassword = (password, hashedPassword) => verifyPassword(password, hashedPassword);
+const authenticate = (req, res, next) => {
+  const { body } = req;
+  const user = UserModel.findByEmail(body.email);
+
+  const password = user ? bcrypt.compareSync(body.password, user.password) : false;
+  if (user && password) {
+    res.user = user;
+    next();
+  } else {
+    res.send({
+      status: 401,
+      message: 'User name or password incorrect',
+    });
+  }
+};
+
+export {
+  hashPassword, verifyPassword, authenticate, generateToken, verifyToken,
 };
