@@ -34,9 +34,4 @@ branches:
 
 notifications:
   emails: false
-
-  # single test suite, non-parallel build.
-
-
-
-
+  
