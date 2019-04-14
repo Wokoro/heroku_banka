@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Wokoro/banka_api.svg?branch=develop)](https://travis-ci.org/Wokoro/banka_api)
+[![Build Status](https://travis-ci.org/Wokoro/banka_api.svg?branch=develop)](https://travis-ci.org/Wokoro/banka_api)[![Coverage Status](https://coveralls.io/repos/github/Wokoro/banka_api/badge.svg?branch=develop)](https://coveralls.io/github/Wokoro/banka_api?branch=develop)
 # bankaApi
 
 This is an API for powering bank UI.
