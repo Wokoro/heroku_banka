@@ -1,7 +1,9 @@
-const express = require('express');
-const AccountController = require('../controllers/account.controller');
-const authAdmin = require('../../utils/auth.admin');
-const { verifyToken } = require('../../utils/utils');
+import express from 'express';
+
+import AccountController from '../controllers/account.controller';
+import authAdmin from '../../utils/auth.admin';
+
+import { verifyToken } from '../../utils/utils';
 
 
 const router = express.Router();
@@ -12,4 +14,4 @@ router.patch('/account/:accountNumber', verifyToken, authAdmin, AccountControlle
 router.delete('/account/:accountNumber', verifyToken, authAdmin, AccountController.delete);
 
 
-module.exports = router;
+export default router;

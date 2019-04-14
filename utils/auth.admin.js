@@ -1,5 +1,5 @@
 
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   const { token } = req;
   if (token.isAdmin) {
     next();

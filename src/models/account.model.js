@@ -73,4 +73,4 @@ Account.store.add(new Account(1, 'active', 'savings', 30000, 5748394867));
 Account.store.add(new Account(2, 'domant', 'debit', 50000, 9483784738));
 Account.store.add(new Account(3, 'active', 'savings', 4000, 8372659845));
 
-module.exports = Account;
+export default Account;

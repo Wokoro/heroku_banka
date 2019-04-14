@@ -1,7 +1,8 @@
-const express = require('express');
-const TransactionController = require('../controllers/transaction.controller');
-const authAdmin = require('../../utils/auth.admin');
-const { verifyToken } = require('../../utils/utils');
+import express from 'express';
+
+import TransactionController from '../controllers/transaction.controller';
+import authAdmin from '../../utils/auth.admin';
+import { verifyToken } from '../../utils/utils';
 
 
 const router = express.Router();
@@ -11,4 +12,4 @@ router.post('/:accountNumber/debit', verifyToken, authAdmin, TransactionControll
 router.post('/:accountNumber/credit', verifyToken, authAdmin, TransactionController.credit);
 
 
-module.exports = router;
+export default router;
