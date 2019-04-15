@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Banka | User Dashboard</title>
+        <meta charset="uft-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Banka is a web application that would aid customers and banking staffs carry out banking activities easily">
+        <link rel="stylesheet" href="../../css/styles.css">
+        <script src="../../javascript/script.js"></script>
+        <script src="../../javascript/view_transaction.js"></script>
+        <script src="../../javascript/modal.js"></script>
+    </head>
+    <body>
+            <div class="response hide">
+                <span class="message">operation succesful !</span>
+            </div>
+            <div class="modal page hide">
+                        <div class="form-holder">
+                            <div class="form">
+                                <button class="btn sm-btn close">&times;</button>
+                                <div class="message">
+                                    <h3>Transaction Details</h3>
+                                    <p><span>Id :</span> <span id="id" data-text="id"></span></p>
+                                    <p><span>Date Created : </span><span id="created_date" data-text="created_at"></span></p>
+                                    <p><span>Amount : </span><span id="amount" data-text="amount"></span></p>
+                                    <p><span>Account Number :</span><span id="account_number" data-text="account_number"></span></p>
+                                    <p><span>Cashier : </span><span id="cashier" data-text="cashier"></span></p>
+                                    <p><span>Type : </span><span id="type" data-text="type"></span></p>
+                                    <p><span>Old Balance : </span><span id="old_balance" data-text="old_balance"></span></p>
+                                    <p><span>New Balance : </span><span id="new_balance" data-text="new_balance"></span></p>
+                                </div>
+                                <div class="btn-holder">
+                                    <button class="btn sm-btn btn1 hide activate"></button>
+                                    <button class="btn sm-btn btn2 hide delete"></button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+        <header>
+            <div class="container">
+                <a id="menu" href="javascript:void(0)">&#9776;</a>
+                
+                <a href="../../../index.html" class="header-brand"><img src="../../img/logo_small.png"></a>
+                
+                <nav id="header-nav" class="hide">
+                    <ul>
+                        <li><a href="../../../index.html" title="Home">Home</a></li>
+                        <li  class="active" title="User dashboard">Dashboard</li>
+                        <li><a href="./create_bank_account.html" title="Create bank account">Create Account</a></li>
+                        <li><a href="./transactions.html" title="View all transactions">Transactions</a></li>
+                        <li><a href="./login.html">Login</a></li>
+                        <li><a href="../../../index.html" title="log out">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="user-dashboard page">
+                <div class="form-holder">
+                    <div class="form">
+                        <img class="profile_pic" src="../../img/profile_pic.jpg">
+                        <div class="information">
+                            <div class="info-holder user-info">
+                            <h3>User information</h3>
+                                <p>First Name : Douye</p>
+                                <p>Last Name : Samuel</p>
+                                <p>Phone Number : +2349066027359</p>
+                                <p>Email : wokorosamuel@yahoo.com</p>
+                            </div>
+                            <div class="info-holder account-info">
+                                <h3>Account information</h3>
+                                <p>Account Number : 123 456 7890</p>
+                                <p>Account Type : Current</p>
+                                <p>Account Balance : &#8358;233, 455, 909</p>
+                                <p>Account Status : Active</p>
+                                <p>Created Date : 23/4/3443 </p>
+                            </div>
+                        </div>
+
+                        <h3>Recent Transactions</h3>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="prio4">Id</th>
+                                    <th>Date</th>
+                                    <th class="prio3">Cashier</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th class="prio1">Old Balance</th>
+                                    <th class="prio2">New Balance</th>
+                                    <th>Account number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="prio4" data-property="id">2</td>
+                                    <td data-property="created_date">23/43/2019</td>
+                                    <td  class="prio3" data-property="cashier">samuel</td>
+                                    <td data-property="type">credit</td>
+                                    <td class="prio1" data-property="old_balance">&#8358;24,000</td>
+                                    <td class="prio2" data-property="new_balance">&#8358;64,000</td>
+                                    <td data-property="amount">&#8358;40,000</td>
+                                    <td data-property="account_number">123 456 9078</td>
+                                </tr>
+                                <tr>
+                                    <td class="prio4" data-property="id">2</td>
+                                    <td data-property="created_date">23/43/2019</td>
+                                    <td  class="prio3" data-property="cashier">samuel</td>
+                                    <td data-property="type">debit</td>
+                                    <td class="prio1" data-property="old_balance">&#8358;24,000</td>
+                                    <td class="prio2" data-property="new_balance">&#8358;64,000</td>
+                                    <td data-property="amount">&#8358;40,000</td>
+                                    <td data-property="account_number">123 456 9078</td>
+                                </tr>
+                                <tr>
+                                    <td class="prio4" data-property="id">2</td>
+                                    <td data-property="created_date">23/43/2019</td>
+                                    <td  class="prio3" data-property="cashier">samuel</td>
+                                    <td data-property="type">credit</td>
+                                    <td class="prio1" data-property="old_balance">&#8358;24,000</td>
+                                    <td class="prio2" data-property="new_balance">&#8358;64,000</td>
+                                    <td data-property="amount">&#8358;40,000</td>
+                                    <td data-property="account_number">123 456 9078</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <a href="./transactions.html" class="btn lg-btn activate"> View all</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+    <footer><p>Copyright &copy; banka 2019</p></footer>
+    </body>
+</html>

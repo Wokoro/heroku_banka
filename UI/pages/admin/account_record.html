@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="uft-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Banka is a web application that would aid customers and banking staffs carry out banking activities easily">
+        <title>Banka | User Record</title>
+        <link rel="stylesheet" href="../../css/styles.css">
+        <script src="../../javascript/script.js"></script>
+        <script src="../../javascript/modal.js"></script>
+        <script src="../../javascript/account_operations.js"></script>
+    </head>
+    <body>
+        <div class="response hide">
+            <span class="message"></span>
+        </div>
+        <div class="modal page hide">
+                <div class="form-holder">
+                    <div class="form">
+                        <button class="btn sm-btn close">&times;</button>
+                        <div class="message"></div>
+                        <div class="btn-holder">
+                            <button class="btn sm-btn btn1 hide activate"></button>
+                            <button class="btn sm-btn btn2 hide delete"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <header>
+                <div class="container">
+                    <a id="menu" href="javascript:void(0)">&#9776;</a>
+                    <a href="../../../index.html" class="header-brand" title="home"><img src="../../img/logo_small.png"></a>
+                    <nav id="header-nav" class="hide">
+                        <ul>
+                            <li><a href="../../../index.html" title="home">Home</a></li>
+                            <li><a href="./dashboard.html" title="admin dashboard">Dashboard</a></li>
+                            <li><a href="./create_user_account.html" title="create user account">Create Account</a></li>
+                            <li><a href="../../../index.html" title="log out">Logout</a></li>
+                        </ul>
+                    </nav>
+                </div>
+        </header>
+        <main>
+            <div class="page">
+                <div class="form-holder">
+                    <div class="form">
+                        <h3>Account Record</h3>
+                        <img class="profile_pic" src="../../img/profile_pic.jpg">
+                        <p>First Name : Douye</p>
+                        <p>Last Name : Samuel</p>
+                        <p>Phone Number : +2349066027359</p>
+                        <p>Email : wokorosamuel@yahoo.com</p>
+                        <p>Account Number : 123 456 7890</p>
+                        <p>Account Type : Current</p>
+                        <p>Account Balance : &#8358;233, 455, 909</p>
+                        <p>Account Status : Active</p>
+                        <p>Created Date : 23/4/3443 </p>
+                        <h3>Account Operations</h3>
+                        <form class="" action="" method="POST">
+                            <input id="activate" type="submit" class="btn lg-btn activate" value="Activate">
+                        </form>
+                        <form class="" action="" method="POST">
+                            <input id="deactivate" type="submit" class="btn lg-btn space-top deactivate" value="Deactivate">
+                        </form>
+                        <form class="" action="" method="POST">
+                            <input id="delete" type="submit" class="btn lg-btn space-top delete" value="Delete">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    <footer><p>Copyright &copy; banka 2019</p></footer>
+    </body>
+</html>
