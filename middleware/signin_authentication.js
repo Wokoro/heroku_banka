@@ -18,5 +18,5 @@ export default function (req, res, next) {
     req.user = user;
     return next();
   }
-  return res.send({ status: 401, message: 'User name or password incorrect' });
+  return res.send({ status: 400, message: 'User name or password incorrect' });
 }

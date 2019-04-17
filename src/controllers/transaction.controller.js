@@ -12,7 +12,7 @@ export default {
 
     if (transactions) { return res.json({ status: 200, transactions }); }
 
-    return res.json({ status: 401, message: 'No transation available' });
+    return res.json({ status: 400, message: 'No transation available' });
   },
 
   /**

@@ -23,7 +23,7 @@ function validateOpeningBalance(req, res, next) {
 
   if (openingBalanceStat) { return next(); }
 
-  return res.send({ status: 401, message: 'Invalid opening balance' });
+  return res.send({ status: 400, message: 'Invalid opening balance' });
 }
 
 /**
@@ -42,7 +42,7 @@ function accountNumberValidation(req, res, next) {
     return next();
   }
 
-  return res.json({ status: 401, message: 'Account do not exists' });
+  return res.json({ status: 400, message: 'Account do not exists' });
 }
 
 export { accountNumberValidation, validateOpeningBalance };
