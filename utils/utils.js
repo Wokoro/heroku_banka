@@ -8,20 +8,17 @@ const publicKey = process.env.PUB_KEY.replace(/\\n/g, '\n');
 
 const issuer = 'Authorization/Resource/BankaServer';
 const subject = '';
-const expiresIn = '400h';
 const algorithm = 'RS256';
 
 const signOptions = {
   issuer,
   subject,
-  expiresIn,
   algorithm,
 };
 
 const verifyOptions = {
   issuer,
   subject,
-  expiresIn,
   algorithm: [`[${algorithm}`],
 };
 
