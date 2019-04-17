@@ -1,87 +1,76 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable padded-blocks */
+/* eslint-disable indent */
 /* eslint-disable no-unused-expressions */
+
 import AccountModel from '../models/account.model';
 
-
 export default {
+  /**
+  * Gets all bank accounts created
+  * @param {string} req
+  * @param {string} res
+  * @returns {object} returns all accounts
+  */
   index(req, res) {
     const accounts = AccountModel.all();
-    if (accounts) {
-      res.json({
-        status: 200,
-        accounts,
-      });
-    } else {
-      res.json({
-        status: 401,
-        message: 'No accounts created',
-      });
-    }
-  },
-  create(req, res) {
-    const { token } = req;
-    if (!token) {
-      res.json({
-        status: 401,
-        message: 'Invalid User token',
-      });
-    } else {
-      const { body } = req;
-      if (body.openingBalance && body.type && body.status) {
-        const account = new AccountModel(token.id, body.type, body.status, body.openingBalance);
-        AccountModel.save(account);
-        res.json({
-          status: 200,
-          data: {
-            accountNumber: account.accountNumber,
-            firstName: token.firstName,
-            lastName: token.lastName,
-            email: token.email,
-            type: account.type,
-            openingBalance: account.getbalance(),
-          },
-        });
-      } else {
-        res.json({
-          status: 401,
-          message: 'required fields empty',
-        });
-      }
-    }
-  },
-  delete(req, res) {
-    const { accountNumber } = req.params;
-    const account = AccountModel.findByAccountNumber(accountNumber);
-    if (account) {
-      AccountModel.delete(account);
-      res.json({
-        status: 200,
-        message: 'Account Deleted',
-      });
-    } else {
-      res.json({
-        status: 401,
-        message: 'Account do not exists',
-      });
-    }
-  },
-  changeState(req, res) {
-    const { accountNumber } = req.params;
 
-    const account = AccountModel.findByAccountNumber(accountNumber);
-    if (account) {
-      const state = typeof account.toggleState === 'undefined' ? 'changed' : account.toggleState(); // for testing purposes;
-      res.json({
-        status: 200,
-        data: {
-          accountNumber: account.accountNumber,
-          status: state,
-        },
-      });
-    } else {
-      res.json({
-        status: 401,
-        message: 'Account do not exists',
-      });
-    }
+    if (accounts) { return res.json({ status: 200, accounts }); }
+
+    return res.json({ status: 401, message: 'No accounts created' });
+  },
+
+  /**
+  * function to create bank account
+  * @param {string} req
+  * @param {string} res
+  * @returns {object} returns a response object
+  */
+  create(req, res) {
+    const { id, firstName, lastName, email } = req.token;
+
+    const { type, status, openingBalance } = req.body;
+
+    const account = new AccountModel(id, type, status, openingBalance);
+
+    const { accountNumber } = account;
+
+    AccountModel.save(account);
+
+    res.json({
+          status: 200,
+          data: { accountNumber, firstName, lastName, email, type, openingBalance },
+        });
+  },
+
+  /**
+  * function to delete bank account
+  * @param {string} req
+  * @param {string} res
+  * @returns {object} returns an object
+  */
+  delete(req, res) {
+    const { account } = req.body;
+
+    AccountModel.delete(account);
+
+    res.json({ status: 200, message: 'Account Deleted' });
+  },
+
+  /**
+  * Function to change the account state of a user
+  * @param {string} req
+  * @param {string} res
+  * @returns {object} returns an array of all accounts
+  */
+  changeState(req, res) {
+    const { account } = req.body;
+
+    const status = account.toggleState(); // for testing purposes;
+
+    res.json({
+      status: 200,
+      data: { status, accountNumber: account.accountNumber },
+    });
   },
 };

@@ -1,0 +1,93 @@
+@media only screen and (min-width: 600px){
+    .lg-btn, .login-main-content input[type="submit"] {
+        width: 45%;
+    }
+    .sm-btn{
+        width: 20%;
+    }
+
+    /*header section*/
+    header .container nav{
+        width: 70%;
+        float: right;
+        display: block;
+        width: 70%;
+        background-color: inherit;
+    }
+    header .container nav ul li{
+        text-align: center;
+    }
+
+    /*account section*/
+    .accounts table tbody tr td {
+        width: 20%;
+    }
+
+    /*new bank account section*/
+    main .new-bank-account form{
+        text-align: left;
+    }
+
+    /*new user content*/
+    main .new-user-content label{
+            width: 27%;
+            text-align: right;
+    }
+    main .new-user-content input{
+        width: 65%;
+    }
+    main .new-user-content input[type="submit"]{
+        width: 40%;
+    }
+
+    /*login section*/
+    .login-main-content label{
+        font-size: 1.2rem;
+        width: 23%;
+        text-align: right;
+    }
+    .login-main-content input{
+        width:65%;
+    }
+    .login-main-content input[type="radio"]{
+        margin-left: 8%;
+    }
+
+    /*utility styles*/
+    .prio1, .prio2{
+        display:initial;
+    }
+    .container #menu{
+        display:none;
+    }
+    .container nav ul{
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        max-width: 90%;
+        float: right;
+    }
+
+    /*account and user information section*/
+    .information{
+        display: flex;
+        flex-direction: row;
+        max-width: 440px;
+        margin: 10px auto;
+    }
+    .information h3{
+        text-align: left;
+    }
+    .user-info{
+        align-self: flex-start;
+    } 
+}
+
+@media only screen and (min-width: 700px){
+    .prio3, .prio4{
+        display:initial;
+    }
+    .accounts table tbody tr td {
+        width: 15%;
+    }
+}

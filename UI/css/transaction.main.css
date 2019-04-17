@@ -1,0 +1,9 @@
+/*Transaction section*/
+.transaction .form{
+    max-width: 100%;
+}
+.transaction .form>span{
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 5px 0 15px 0;
+}

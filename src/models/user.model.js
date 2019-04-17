@@ -1,7 +1,4 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-new */
 /* eslint-disable no-plusplus */
-/* eslint-disable no-underscore-dangle */
 const bcrypt = require('bcrypt');
 
 class User {
@@ -17,26 +14,36 @@ class User {
     this.isAdmin = isAdmin;
   }
 
-  exits(email) {
-    return !!User.all().find(user => user.email === email);
-  }
-
+  /**
+  * Returns a users password
+  * @returns {User} User
+  */
   getPassword() {
     return this.password;
   }
 
+  /**
+  * Find a user my email
+  * @param {string} email
+  * @returns {User} User
+  */
   static findByEmail(email) {
     return User.all().find(user => user.email === email);
   }
 
-  static findById(id) {
-    return User.all().find(user => user.id === id);
+  /**
+  * Store a given user to datastore
+  * @param {User} user
+  * @returns {User} User
+  */
+  static save(user) {
+    User.store.add(user);
   }
 
-  static save(val) {
-    User.store.add(val);
-  }
-
+  /**
+  * Get all users
+  * @returns {Array} Users
+  */
   static all() {
     return [...User.store];
   }
@@ -44,7 +51,5 @@ class User {
 
 User.index = 0;
 User.store = new Set();
-
-// User model mock data
 
 export default User;

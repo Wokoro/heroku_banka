@@ -15,14 +15,29 @@ class Transaction {
     this.newBalance = newBalance;
   }
 
-  static save(val) {
-    Transaction.store.push(val);
+  /**
+  * Funtion to save transaction to dataStore
+  * @param {Transaction} transaction
+  * @param {Account} account
+  */
+  static save(transaction) {
+    Transaction.store.push(transaction);
   }
 
+  /**
+  * Find a given transaction in the datastore
+  * @param {Integer} id
+  * @returns {Transaction} return the found transaction
+  */
   static findById(id) {
     return Transaction.store.find(transaction => transaction.id === id);
   }
 
+  /**
+  * Save account to datastore
+  * @param {Account} account
+  * @returns {Transactions} returns all transactions
+  */
   static all() {
     return Transaction.store;
   }

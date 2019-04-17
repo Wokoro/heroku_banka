@@ -1,0 +1,218 @@
+/*Utility classes*/
+.btn{
+    background-color: #4B0082;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+    font-family: inherit;
+    padding: 20px;
+    display: block;
+    margin: auto;
+    letter-spacing: 0.02em;
+    line-height: 1px;
+    font-size:1em;    
+    font-weight: 100;
+    border-radius: 5px;
+}
+
+.delete{
+    background-color: #bf0202;
+}
+.activate{
+    background-color: green;
+}
+.deactivate{
+    background-color: orange;
+}
+.activate, .deactivate, .delete{
+    font-weight: 700;
+}
+.btn:hover{
+    box-shadow: 1px 1px 5px #111;
+}
+.form, .list{
+    text-align: -webkit-center;
+    text-align: -moz-center; 
+    text-align: center;
+    background-color: #fff;
+    padding: 10px;
+    max-width: 400px;
+    color: #444446;
+    width:100%;
+    margin: 10px auto;
+}
+.large-btn{
+	background-color: #4B0082;
+	color: #fff;
+	border: 0;
+	margin-top: 10px;
+	font-size: 0.8em;
+	font-weight: 600;
+	font-family: inherit;
+    padding: 20px;
+    width: 100%;
+    display: block;
+}
+.btn-holder{
+    display: flex;
+    justify-content: space-around;
+}
+.sm-btn{
+    width: 30%;
+    border-radius: 12px;
+    height: 40px;
+}
+.xs-btn{
+    width: 20%;
+    border-radius: 12px;
+    height: 0px;
+    line-height: 1px;
+    margin-right: 1px;
+    margin-left: 1px;
+    margin-top: 30px;
+}
+.lg-btn{
+    width: 100%;
+}
+.modal{
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 9999;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+}
+.modal .form, .modal .info{
+    width: 90%;
+    margin: auto;
+    border-radius: 5px;
+    position:relative;
+}
+.modal .form .message, .modal .info .message{
+    padding:30px;
+    font-size: 1em;
+    font-weight: 600;
+}
+.modal .form .close, .modal .info .close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 30px;
+    padding: 0px;
+    width: 35px;
+    margin: 5px;
+    height: 35px;
+    background: none;
+    color: #4B0082;
+    font-size: 23px;
+}
+
+.space-top{
+    margin-top: 15px;
+}
+.space-bottom{
+    margin-bottom: 20px;
+}
+.radio{
+    margin-bottom: 20px;
+    color: #111;
+}
+.container{
+    padding: 0 10px 0 10px;
+}
+.page{
+    width: 100%;
+    height: calc(100vh - 122px);
+    display: table;
+    color: #4B0082;
+}
+.response span {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    display: block;
+    padding: 5px;
+    max-width: 305px;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px #868686;
+    border-radius: 5px;
+    width: 100%;
+    color: green;
+    font-size: 1.5rem;
+}
+.form-holder{
+    display: table-cell;
+    vertical-align: middle;
+}
+.form h3, .info h3{
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+    color: #7100C5;
+    line-height: 0px;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    clear : both;
+}
+.form p, .info p{
+    text-align: left;
+}
+
+/*display*/
+.prio1, .prio2, .prio3, .prio4{
+    display:none;
+}
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}
+
+/*appearance*/
+.disp-logo{
+    width: 20%;
+    margin: 0 0 10px 0;
+    max-width: 50px;
+}
+
+/*position*/
+.move-left{
+    float:left;
+}
+.move-right{
+    float: right;
+}
+
+.information{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center
+}
+.info-holder{
+    max-width: 300px;
+    text-align: center;
+}
+.user-info{
+    align-self: center;
+}
+
+/*colors*/
+.green, .info{
+    color: #1a891a;
+}
+.red, .warning{
+    color: red;
+}
+.active{
+    color: #7100c5;
+    font-weight: bolder;
+}

@@ -1,0 +1,30 @@
+/*User dashboard section*/
+.user-dashboard p{
+    line-height: 24px;
+}
+.user-dashboard .form h3{
+    margin: 20px 0 23px 0;
+}
+.user-dashboard .form{
+    min-width: 100%;
+}
+.user-dashboard p{
+    text-align: left;  
+}
+.user-dashboard table{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.user-dashboard a{
+    margin: 0 auto;
+}
+.user-dashboard h3{
+    margin-top: 30px !important;
+}
+.profile_pic{
+    width: 30%;
+    max-width:100px;
+    border-radius: 100%;
+    padding: 5px;
+    box-shadow: 0px 0px 2px #6f6f6f7d;
+}
