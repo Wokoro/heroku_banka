@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Banka | Create Bank Account</title>
+        <meta charset="uft-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Banka is a web application that would aid customers and banking staffs carry out banking activities easily">
+        <link rel="stylesheet" href="../../css/styles.css">
+        <link rel="stylesheet" href="../../../UI/css/globals.css">
+        <link rel="stylesheet" href="../../../UI/css/utils.css">
+        <link rel="stylesheet" href="../../../UI/css/header.css">
+        <link rel="stylesheet" href="../../../UI/css/media.query.css">
+
+        <script src="../../javascript/script.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <a id="menu" href="javascript:void(0)">&#9776;</a>
+                <a href="../../../index.html" class="header-brand"><img src="../../img/logo_small.png"></a>
+                <nav id="header-nav" class="hide">
+                    <ul>
+                        <li><a href="../../../index.html" title="Home">Home</a></li>
+                        <li><a href="./dashboard.html" title="User dashboard">Dashboard</a></li>
+                        <li class="active" title="Create user account">Create Account</li>
+                        <li><a href="./transactions.html" title="View all transactions">Transactions</a></li>
+						<li><a href="./login.html" title="log in">Login</a></li>
+                        <li><a href="../../../index.html" title="log out">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div class="new-bank-account page">
+                <div class="form-holder">
+                    <div class="form">
+                        <h3>CREATE ACCOUNT</h3>
+                        <form class="" action="" method="POST">
+                            <label for="type">Type : </label>
+                            <input name="type" type="radio"><span class="radio" checked="checked">savings</span>
+                            <input name="type" type="radio"><span class="radio">current</span><br>
+
+                            <label for="start-amount" class="space-top">Start Amount(₦): </label>
+                            <input name="start-amount" type="number" placeholder="23 333" min="2000">
+                            
+                            <label for="status">Status : </label>
+                            <input name="status" type="radio"><span class="radio">active</span>
+                            <input name="status" type="radio"><span class="radio">draft</span>
+                            <input name="status" type="radio"><span class="radio">domant</span>
+                            
+                            <input type="submit" class="btn lg-btn space-top activate" value="Create">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer><p>Copyright &copy; banka 2019</p></footer>
+    </body>
+</html>

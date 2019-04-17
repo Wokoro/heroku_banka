@@ -41,7 +41,7 @@ describe('Debit transaction tests POST /transaction/<account-number>/debit', () 
     it('Response must contain account amount', () => {
       expect(res.body.data).to.have.property('amount');
     });
-    it('Account balance should increase', () => {
+    it('Account balance should decrease', () => {
       expect(res.body.data.newBalance < res.body.data.oldBalance).to.be.true;
     });
   });

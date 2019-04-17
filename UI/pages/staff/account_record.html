@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Banka | User Account Record</title>
+        <meta charset="uft-8">
+        <meta name="description" content="Banka is a web application that would aid customers and banking staffs carry out banking activities easily">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../../../UI/css/globals.css">
+        <link rel="stylesheet" href="../../../UI/css/utils.css">
+        <link rel="stylesheet" href="../../../UI/css/header.css">
+        <link rel="stylesheet" href="../../../UI/css/account.main.css">
+        <link rel="stylesheet" href="../../../UI/css/media.query.css">
+
+        <script src="../../javascript/script.js"></script>
+        <script src="../../javascript/account_operations.js"></script>
+        <script src="../../javascript/modal.js"></script>
+    </head>
+    <body>
+        <div class="response hide">
+            <span class="message">operation succesful !</span>
+        </div>
+        <div class="modal page hide">
+            <div class="form-holder">
+                <div class="form">
+                    <button class="btn sm-btn close">&times;</button>
+                    <div class="message"></div>
+                    <div class="btn-holder">
+                        <button class="btn sm-btn btn1 hide activate">ok</button>
+                        <button class="btn sm-btn btn2 hide delete">cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <header>
+            <div class="container">
+                <a id="menu" href="javascript:void(0)">&#9776;</a>
+                <a href="../../../index.html" class="header-brand" title="banka logo"><img src="../../img/logo_small.png"></a>
+                <nav id="header-nav" class="hide">
+                    <ul>
+                        <li><a href="../../../index.html" title="Home">Home</a></li>
+                        <li><a href="./dashboard.html" title="Staff dashboard">Dashboard</a></li>
+                        <li><a href="./credit.html" title="Perform credit operation">Credit</a></li>
+                        <li><a href="./debit.html" title="Perform debit operation">Debit</a></li>
+                        <li><a href="../../../index.html" title="log out">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div class="page">
+                <div class="form-holder">
+                    <div class="form">
+                        <h3>Account Record</h3>
+                        <img class="profile_pic" src="../../img/profile_pic.jpg">
+                        <p>First Name : Douye</p>
+                        <p>Last Name : Samuel</p>
+                        <p>Phone Number : +2349066027359</p>
+                        <p>Email : wokorosamuel@yahoo.com</p>
+                        <p>Account Number : 123 456 7890</p>
+                        <p>Account Type : Current</p>
+                        <p>Account Balance : &#8358;233, 455, 909</p>
+                        <p>Account Status : Active</p>
+                        <p>Created Date : 23/4/3443 </p>
+                        <h3>Account Operations</h3>
+                        <form class="" action="" method="POST">
+                            <input id="activate" type="submit" class="btn lg-btn activate" value="Activate">
+                        </form>
+                        <form class="" action="" method="POST">
+                            <input id="deactivate" type="submit" class="btn lg-btn space-top deactivate" value="Deactivate">
+                        </form>
+                        <form class="" action="" method="POST">
+                            <input id="delete" type="submit" class="btn lg-btn space-top delete" value="Delete">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    <footer><p>Copyright &copy; banka 2019</p></footer>
+    </body>
+</html>

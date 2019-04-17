@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import UserModel from '../src/models/user.model';
 
 
 const privateKey = process.env.PRI_KEY.replace(/\\n/g, '\n');
@@ -27,6 +26,7 @@ const verifyOptions = {
 };
 
 const generateToken = payload => jwt.sign(payload, privateKey, signOptions);
+
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const issureToken = jwt.verify(token, publicKey, verifyOptions);
@@ -40,24 +40,11 @@ const verifyToken = (req, res, next) => {
     });
   }
 };
-const hashPassword = password => bcrypt.hashSync(password, 10);
-const verifyPassword = (password, hashedPassword) => verifyPassword(password, hashedPassword);
-const authenticate = (req, res, next) => {
-  const { body } = req;
-  const user = UserModel.findByEmail(body.email);
 
-  const password = user ? bcrypt.compareSync(body.password, user.password) : false;
-  if (user && password) {
-    res.user = user;
-    next();
-  } else {
-    res.send({
-      status: 401,
-      message: 'User name or password incorrect',
-    });
-  }
-};
+const hashPassword = password => bcrypt.hashSync(password, 10);
+
+const verifyPassword = (password, hashedPassword) => verifyPassword(password, hashedPassword);
 
 export {
-  hashPassword, verifyPassword, authenticate, generateToken, verifyToken,
+  hashPassword, verifyPassword, generateToken, verifyToken,
 };

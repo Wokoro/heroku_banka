@@ -1,0 +1,23 @@
+
+/*admin main section*/
+main .admin-dashboard{
+    min-height: fit-content;
+    text-align: -webkit-center;
+    text-align: -moz-center;
+    text-align: center;
+}
+main .admin-dashboard p{
+    text-align: center;
+    font-size: 0.8em;
+}
+.admin-dashboard .list{
+    width: 100%;
+    min-width: 156px;
+}
+.admin-dashboard .form{
+    min-width: 100%;
+    box-shadow: none;
+}
+.admin-dashboard .form-holder{
+    background-color: #fff;
+}

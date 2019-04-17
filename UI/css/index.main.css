@@ -1,0 +1,33 @@
+/*STYLES FOR MAIN SECTION*/
+/*Main index section*/
+main.background{
+    background-image: url(../img/main.jpg);
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    height: calc(100vh - 122px);
+    display: table;
+}
+main .index-main-content{
+    font-size: 2.3rem;
+    font-weight: 900;
+    text-shadow: 1px 1px 4px #E6E6FA;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+main .index-main-content h1{
+    font-size: 2rem;
+    line-height: 32px;
+}
+
+main .index-main-content p{
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 100;
+    color: #fff;
+    text-shadow: 1px 1px 1px #111;
+    line-height: 18px;
+}
