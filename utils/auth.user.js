@@ -10,7 +10,7 @@ export default (req, res, next) => {
     next();
   } else {
     res.json({
-      status: 401,
+      status: 403,
       message: 'Access denied login required',
     });
   }

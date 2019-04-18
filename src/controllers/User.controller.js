@@ -19,7 +19,7 @@ export default {
 
     User.save(user);
 
-    const token = generateToken({ id, email, isAdmin, firstName, lastName });
+    const token = generateToken({ id, email, isAdmin });
 
     res.send({
       status: 200,

@@ -64,7 +64,7 @@ describe('Create user account tests: POST /auth/signup', () => {
       res = await chai.request(server).post('/api/v1/auth/signup').send(params);
     });
     it('Status 401', () => {
-      expect(res.body).to.have.status(401);
+      expect(res.body).to.have.status(400);
     });
     it('Error message must be defined', () => {
       expect(res.body).to.have.property('message');

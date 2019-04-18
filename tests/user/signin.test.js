@@ -53,8 +53,8 @@ describe('User signin tests: POST /auth/signin', () => {
       };
       res = await chai.request(server).post('/api/v1/auth/signin').send(params);
     });
-    it('Response must be 401', () => {
-      expect(res.body).to.have.status(401);
+    it('Response must be 400', () => {
+      expect(res.body).to.have.status(400);
     });
     it('Error message must be defined', () => {
       expect(res.body).to.have.property('message');
