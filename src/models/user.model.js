@@ -1,5 +1,9 @@
+/* eslint-disable padded-blocks */
+/* eslint-disable quotes */
 /* eslint-disable no-plusplus */
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
+import { DBClient } from '../../db';
+
 
 class User {
   constructor(lastName, firstName, email, password, phoneNumber, type, isAdmin) {

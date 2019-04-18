@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "nyc mocha --timeout 1000 -r @babel/register  tests/**/*.test.js --exit",
+    "test": "nyc mocha --timeout 500 -r @babel/register  tests/**/*.test.js --exit",
     "build": "babel src -d build",
     "start-dev": "nodemon --exec babel-node server.js",
     "lint": "eslint **/*.js",
@@ -41,6 +41,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
+    "pg": "^7.10.0",
     "request": "^2.88.0"
   },
   "engines": {
