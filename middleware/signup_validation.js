@@ -58,5 +58,5 @@ export default function signUpValidation(req, res, next) {
     return next();
   }
 
-  return res.send({ status: 401, message: 'Required fields are empty or incorrect' });
+  return res.send({ status: 400, message: 'Required fields are empty or incorrect' });
 }

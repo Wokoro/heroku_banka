@@ -17,7 +17,7 @@ export default {
 
     if (accounts) { return res.json({ status: 200, accounts }); }
 
-    return res.json({ status: 401, message: 'No accounts created' });
+    return res.json({ status: 400, message: 'No accounts created' });
   },
 
   /**

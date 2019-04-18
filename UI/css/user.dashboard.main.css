@@ -21,6 +21,9 @@
 .user-dashboard h3{
     margin-top: 30px !important;
 }
+.user-info p, .user-info h3{
+    text-align: right !important;
+}
 .profile_pic{
     width: 30%;
     max-width:100px;

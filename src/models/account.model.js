@@ -38,7 +38,7 @@ class Account {
     if (value) {
       this.balance = balance.toString();
     }
-    return value;
+    return this.balance;
   }
 
   /**
@@ -51,7 +51,7 @@ class Account {
     const debitAmt = Number(val);
     balance += debitAmt;
     this.balance = balance.toString();
-    return balance;
+    return this.balance;
   }
 
   /**

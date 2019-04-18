@@ -60,8 +60,8 @@ describe('Bank account creation tests: POST /accounts', () => {
       };
       res = await chai.request(server).post('/api/v1/accounts').set('Authorization', token).send(params);
     });
-    it('Status 401', () => {
-      expect(res.body).to.have.status(401);
+    it('Status 400', () => {
+      expect(res.body).to.have.status(400);
     });
     it('Response body should be defined', () => {
       expect(res.body).to.have.property('message');
