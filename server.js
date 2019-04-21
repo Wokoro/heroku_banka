@@ -6,7 +6,6 @@ import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 
-
 import UserRoutes from './src/routers/user.routes';
 import AccountRoutes from './src/routers/account.routes';
 import TransactionRoutes from './src/routers/transaction.routes';
