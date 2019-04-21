@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-expressions */
 
 import AccountModel from '../models/account.model';
+import UserModel from '../models/user.model';
 
 export default {
   /**
@@ -15,9 +16,24 @@ export default {
   index(req, res) {
     const accounts = AccountModel.all();
 
-    if (accounts) { return res.json({ status: 200, accounts }); }
+    if (accounts) { return res.json({ message: 'Operation successful', status: 200, accounts }); }
 
     return res.json({ status: 400, message: 'No accounts created' });
+  },
+
+  /**
+* Function to get a specific transaction
+* @param {string} req
+* @param {string} res
+* @returns {object} returns the transaction details if succesful
+*/
+  show(req, res) {
+    const { accountNumber } = req.params;
+    const account = AccountModel.findByAccountNumber(accountNumber);
+    res.json({
+      status: 200,
+      data: { account },
+    });
   },
 
   /**
@@ -27,17 +43,19 @@ export default {
   * @returns {object} returns a response object
   */
   create(req, res) {
-    const { id, firstName, lastName, email } = req.token;
+    const { id, email } = req.body.token;
 
     const { type, status, openingBalance } = req.body;
 
     const account = new AccountModel(id, type, status, openingBalance);
+    const { firstName, lastName } = UserModel.findByEmail(email);
 
     const { accountNumber } = account;
 
     AccountModel.save(account);
 
-    res.json({
+    return res.json({
+          message: 'Account Created',
           status: 200,
           data: { accountNumber, firstName, lastName, email, type, openingBalance },
         });
@@ -69,6 +87,7 @@ export default {
     const status = account.toggleState(); // for testing purposes;
 
     res.json({
+      message: 'Account status changed',
       status: 200,
       data: { status, accountNumber: account.accountNumber },
     });

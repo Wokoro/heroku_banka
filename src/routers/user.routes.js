@@ -2,6 +2,8 @@ import express from 'express';
 
 import userAuthentication from '../../middleware/signin_authentication';
 import signUpValidation from '../../middleware/signup_validation';
+import UniquesnessValidation from '../../middleware/check_uniqueness';
+import RemovePads from '../../middleware/remove_padding';
 
 import UserController from '../controllers/User.controller';
 
@@ -15,7 +17,7 @@ const router = express.Router();
 * @apiParam  {object} user details
 */
 
-router.post('/signup', signUpValidation, UserController.create);
+router.post('/signup', RemovePads, UniquesnessValidation, signUpValidation, UserController.create);
 
 /**
 * @api {post} /api/v1/auth/signin Sign a given user account

@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-new */
 /* eslint-disable no-useless-computed-key */
 /* eslint-disable no-plusplus */
@@ -13,6 +14,10 @@ class Transaction {
     this.amount = amount;
     this.oldBalance = oldBalance;
     this.newBalance = newBalance;
+  }
+
+  static findByTransactionID(id) {
+    return Transaction.all().find(transaction => transaction.id === parseInt(id));
   }
 
   /**

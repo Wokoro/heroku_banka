@@ -4,7 +4,7 @@ export default (req, res, next) => {
   const { accountNumber } = req.params;
   const { amount } = req.body;
   const account = AccountModel.findByAccountNumber(accountNumber);
-  if (account.balance < amount) {
+  if (Number(account.balance) < amount) {
     return res.json({
       status: 400,
       message: 'Insufficient balance',

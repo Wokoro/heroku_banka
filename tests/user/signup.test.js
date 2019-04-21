@@ -17,7 +17,7 @@ describe('Create user account tests: POST /auth/signup', () => {
       const params = {
         lastName: 'samuel',
         firstName: 'douye',
-        email: 'wokorosamuel@yahoo.com',
+        email: 'samuel@yahoo.com',
         isAdmin: false,
         password: 'password',
         confirmPassword: 'password',

@@ -16,13 +16,13 @@ export default {
   },
 
   /**
-  * Function to get debit an account
+  * Function to debit an account
   * @param {string} req
   * @param {string} res
   * @returns {object} returns the transaction details if succesful
   */
   debit(req, res) {
-    const { token } = req;
+    const { token } = req.body;
     const { amount, account } = req.body;
     const { accountNumber } = account;
     const oldBalance = account.balance;
@@ -35,6 +35,22 @@ export default {
     res.json({ status: 200, data: transaction });
   },
 
+
+  /**
+* Function to get a specific transaction
+* @param {string} req
+* @param {string} res
+* @returns {object} returns the transaction details if succesful
+*/
+  show(req, res) {
+    const { transactionID } = req.params;
+    const transaction = TransactionModel.findByTransactionID(transactionID);
+    res.json({
+      status: 200,
+      data: { transaction },
+    });
+  },
+
   /**
   * Function credit a user account
   * @param {string} req
@@ -42,7 +58,7 @@ export default {
   * @returns {object} returns transaction details
   */
   credit(req, res) {
-    const { token } = req;
+    const { token } = req.body;
     const { amount, account } = req.body;
     const { accountNumber } = account;
     const oldBalance = account.balance;

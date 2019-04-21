@@ -34,17 +34,10 @@ app.use('/api/v1/transactions', TransactionRoutes);
 app.use('/api/v1/', AccountRoutes);
 
 // caching unsuported urls
-app.use((req, res, next) => {
-  const error = new Error('Not found');
-  error.status = 404;
-  next(error);
-});
-
-// Caching database related errors
-app.use((error, req, res) => {
-  res.status(error.status || 500);
+app.use((req, res) => {
   res.json({
-    message: error.message,
+    status: 404,
+    message: 'Page not found',
   });
 });
 

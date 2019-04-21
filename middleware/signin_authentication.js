@@ -16,7 +16,8 @@ export default function (req, res, next) {
 
   if (user && userPassword) {
     req.user = user;
-    return next();
+    next();
+  } else {
+    res.json({ status: 400, message: 'User name or password incorrect' });
   }
-  return res.send({ status: 400, message: 'User name or password incorrect' });
 }

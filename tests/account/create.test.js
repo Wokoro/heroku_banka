@@ -12,7 +12,6 @@ describe('Bank account creation tests: POST /accounts', () => {
   const token = process.env.TEST_TOKEN;
   describe('tests for successful account creation', () => {
     let res = {};
-    after(() => { server.close(); });
     before(async () => {
       const params = {
         status: 'active',
@@ -29,11 +28,9 @@ describe('Bank account creation tests: POST /accounts', () => {
     });
     it('Response must contain valid firstName', () => {
       expect(res.body.data).to.have.property('firstName');
-      expect(res.body.data.firstName).to.match(/^([A-Za-z])/);
     });
     it('Response must contain a valid lastName', () => {
       expect(res.body.data).to.have.property('lastName');
-      expect(res.body.data.lastName).to.match(/^([A-Za-z])/);
     });
     it('Response must contain a valid email', () => {
       expect(res.body.data).to.have.property('email');

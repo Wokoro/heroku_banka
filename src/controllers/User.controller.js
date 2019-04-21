@@ -21,7 +21,7 @@ export default {
 
     const token = generateToken({ id, email, isAdmin });
 
-    res.send({
+    return res.json({
       status: 200,
       data: { id, token, isAdmin, firstName, lastName, email, phoneNumber },
     });
@@ -36,7 +36,7 @@ export default {
   signin(req, res) {
     const { id, email, firstName, lastName, password } = req.user;
 
-    return res.send({
+    return res.json({
       status: 200,
       data: {
         token: generateToken({ id, email }, email),
