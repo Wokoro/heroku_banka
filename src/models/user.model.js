@@ -55,5 +55,8 @@ class User {
 
 User.index = 0;
 User.store = new Set();
+User.save(new User('Douye', 'Samuel', 'samuell@yahoo.com', 'samuel', '09066027359', 'staff', true));
+User.save(new User('Benjamin', 'Tariladou', 'benbizzy@yahoo.com', 'samuel', '09066027359', 'staff', true));
+User.save(new User('Enebimo', 'Joan', 'wokorosamuel@yahoo.com', 'samuel', '09066027359', 'staff', true));
 
 export default User;

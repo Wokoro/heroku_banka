@@ -1,6 +1,6 @@
 
 export default (req, res, next) => {
-  const { token } = req;
+  const token = req.body.token || req.headers.authorization || req.headers['x-access-token'];
   if (token.isAdmin) {
     next();
   } else {

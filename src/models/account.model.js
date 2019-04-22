@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-plusplus */
 class Account {
   constructor(owner, type, status, balance, accountNumber) {
@@ -108,8 +109,8 @@ class Account {
 Account.index = 0;
 Account.store = new Set();
 
-Account.store.add(new Account(1, 'active', 'savings', 30000, 5748394867));
-Account.store.add(new Account(2, 'domant', 'debit', 50000, 9483784738));
-Account.store.add(new Account(3, 'active', 'savings', 4000, 8372659845));
+Account.store.add(new Account(1, 'savings', 'active', 30000, 5748394867));
+Account.store.add(new Account(2, 'debit', 'domant', 50000, 9483784738));
+Account.store.add(new Account(3, 'savings', 'active', 4000, 8372659845));
 
 export default Account;

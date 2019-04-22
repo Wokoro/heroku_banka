@@ -12,6 +12,7 @@ describe('Account activation tests: PATCH /account/<account-number>', () => {
   let res = {};
   before(async () => {
     res = await chai.request(server).patch('/api/v1/account/5748394867').set('Authorization', adminToken).send();
+    // console.log(res.body);
   });
   it('Status 200', () => {
     expect(res.body).to.have.status(200);

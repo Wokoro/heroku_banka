@@ -38,7 +38,6 @@ function accountNumberValidation(req, res, next) {
 
   if (account) {
     req.body.account = account;
-
     return next();
   }
 

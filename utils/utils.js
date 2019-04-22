@@ -26,11 +26,11 @@ const verifyOptions = {
 const generateToken = payload => jwt.sign(payload, privateKey, signOptions);
 
 const verifyToken = (req, res, next) => {
-  const rawToken = req.headers.authorization || req.headers['x-access-token'] || request.body.token;
+  const rawToken = req.headers.authorization || req.headers['x-access-token'] || req.body.token;
   const token = rawToken.split(' ')[1];
   const issureToken = jwt.verify(token, publicKey, verifyOptions);
   if (issureToken) {
-    req.token = issureToken;
+    req.body.token = issureToken;
     next();
   } else {
     res.json({
@@ -40,10 +40,43 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+/**
+ * Checks if both confirm password and password fields match
+ * @param {string} values
+ * @returns {boolean}
+ *
+ */
+function isEmpty(value) {
+  return value === '' || typeof value === 'undefined';
+}
+
+/**
+ * Trims a given input value
+ * @param {string} values
+ * @returns {String}
+ *
+ */
+function trim(value) {
+  return value.toString().trim();
+}
+
+/**
+ * Hashes user password
+ * @param {string} password
+ * @returns {string}
+ *
+ */
 const hashPassword = password => bcrypt.hashSync(password, 10);
 
+
+/**
+ * Checks if both confirm password and password fields match
+ * @param {string} values
+ * @returns {boolean}
+ *
+ */
 const verifyPassword = (password, hashedPassword) => verifyPassword(password, hashedPassword);
 
 export {
-  hashPassword, verifyPassword, generateToken, verifyToken,
+  hashPassword, verifyPassword, generateToken, verifyToken, isEmpty, trim,
 };

@@ -19,6 +19,14 @@ const router = express.Router();
 router.post('/accounts', validateOpeningBalance, verifyToken, AccountController.create);
 
 /**
+* @api {get} /api/v1/accounts/:accountNumber   gets an account
+* @apiName Get account
+* @apiPermission staff
+*
+*/
+router.get('/accounts/:accountNumber', accountNumberValidation, verifyToken, authAdmin, AccountController.show);
+
+/**
 * @api {get} /api/v1/accounts   gets all accounts
 * @apiName Get accounts
 * @apiPermission admin
@@ -40,5 +48,6 @@ router.patch('/account/:accountNumber', accountNumberValidation, verifyToken, au
 * @apiPermission admin/staff
 */
 router.delete('/account/:accountNumber', verifyToken, accountNumberValidation, authAdmin, AccountController.delete);
+
 
 export default router;

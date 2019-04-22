@@ -4,9 +4,11 @@
 /* eslint-disable no-control-regex */
 /* eslint-disable object-curly-newline */
 /* eslint-disable arrow-body-style */
+import { isEmpty } from '../utils/utils';
 
 const TEXT_FIELD_REG = /[a-zA-Z\-'\s]+/;
 const EMAIL_FIELD_REG = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+let ERROR_MESSAGES = [];
 
 
 /**
@@ -15,7 +17,13 @@ const EMAIL_FIELD_REG = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z
  * @returns {string|null} matched string or null if nothing is fine
  */
 const validateEmail = (email) => {
-  return EMAIL_FIELD_REG.test(email);
+  if (isEmpty(email)) {
+    ERROR_MESSAGES.push('email field is empty');
+  }
+  if (!EMAIL_FIELD_REG.test(email)) {
+    ERROR_MESSAGES.push('Invalid email address');
+  }
+  return true;
 };
 
 /**
@@ -24,19 +32,41 @@ const validateEmail = (email) => {
  * @param {string} lastName
  * @returns {string|null}
  */
-const validateNameFields = (firstName, lastName) => {
-  return TEXT_FIELD_REG.test(firstName) && TEXT_FIELD_REG.test(lastName);
+const validateNameFields = (lastName, firstName) => {
+  if (isEmpty(firstName)) {
+    ERROR_MESSAGES.push('firstName field required');
+  }
+  if (!isEmpty(firstName) && !TEXT_FIELD_REG.test(firstName)) {
+    ERROR_MESSAGES.push('Invalid first name');
+  }
+  if (!isEmpty(lastName) && !TEXT_FIELD_REG.test(lastName)) {
+    ERROR_MESSAGES.push('Invalid last name');
+  }
+  if (isEmpty(lastName)) {
+    ERROR_MESSAGES.push('lastName field required');
+  }
 };
 
+function getErrorMessages() {
+  return ERROR_MESSAGES;
+}
 /**
  * Checks if both confirm password and password fields match
  * @param {string} password
  * @param {string} confirmPassword
- * @returns {true|false}
+ * @returns {boolean}
  *
  */
-function validatePassword (password, confirmPassword) {
-  return password === confirmPassword;
+function validatePassword(password, confirmPassword) {
+  if (isEmpty(password)) {
+    ERROR_MESSAGES.push('password field is required');
+  }
+  if (isEmpty(confirmPassword)) {
+    ERROR_MESSAGES.push('confirm password field required');
+  }
+  if (!(password === confirmPassword)) {
+    ERROR_MESSAGES.push('password and confirm password fields do not match');
+  }
 }
 
 /**
@@ -48,15 +78,16 @@ function validatePassword (password, confirmPassword) {
 export default function signUpValidation(req, res, next) {
   const { lastName, firstName, email, password, confirmPassword } = req.body;
 
-  const validateNamesStat = validateNameFields(lastName, firstName);
+  validateNameFields(lastName, firstName);
 
-  const validateEmailStat = validateEmail(email);
+  validateEmail(email);
 
-  const validatePasswordStat = validatePassword(password, confirmPassword);
+  validatePassword(password, confirmPassword);
 
-  if (validateNamesStat && validateEmailStat && validatePasswordStat) {
-    return next();
+  if (ERROR_MESSAGES.length === 0) {
+    next();
+  } else {
+    res.json({ status: 400, message: getErrorMessages() });
+    ERROR_MESSAGES = [];
   }
-
-  return res.send({ status: 400, message: 'Required fields are empty or incorrect' });
 }
