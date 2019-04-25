@@ -1,11 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-import UserModel from '../src/models/user.model';
-
-
-const privateKey = process.env.PRI_KEY.replace(/\\n/g, '\n');
-const publicKey = process.env.PUB_KEY.replace(/\\n/g, '\n');
+const privateKey = '-----BEGIN RSA PRIVATE KEY-----\nMIIBOgIBAAJAXvAed31PLxc6rb5LOaP9CW14reZUG8C50WnpvDPi/xGeYq0kRuiY\nIOUQ1PRKPC+q21gWuOsFz/qaSweddsLsAQIDAQABAkBcFHC4XCWM+u7CzSqRAWjO\n2AqQQDGbqVWQszUsgPbNhM6IDV2wczZ0bIlehV0ha4hxHBvD97+YP0x1hsl14u7x\nAiEAobYKAPry4oFRTHge23FrHBSp/IeQ4XzjR1rrdfOlVjMCIQCWSyAYG/cZbLkJ\nq6nwGALpOtAjgQArs+5nAeHPFUL4+wIgOffsrB9JVCLxRs1EmnuU3tMVgH4EVKCV\nRK31/ClkGnsCIQCM9bsNQbVZMELAUjQZzrt0Okga9JPPaXwROo+qZRuiXwIhAIa0\nuTq88tjst8dmsUfHICBHlcXT3IyX60HNn67G2wL5\n-----END RSA PRIVATE KEY-----'.replace(/\\n/g, '\n');
+const publicKey = '-----BEGIN PUBLIC KEY-----\nMFswDQYJKoZIhvcNAQEBBQADSgAwRwJAXvAed31PLxc6rb5LOaP9CW14reZUG8C5\n0WnpvDPi/xGeYq0kRuiYIOUQ1PRKPC+q21gWuOsFz/qaSweddsLsAQIDAQAB\n-----END PUBLIC KEY-----'.replace(/\\n/g, '\n');
 
 
 const issuer = 'Authorization/Resource/BankaServer';

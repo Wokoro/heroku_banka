@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "npm run migrate && nyc mocha --timeout 20000 -r @babel/register  tests/index.js --exit",
-    "build": "babel src -d build",
+    "start": "node server.js",
     "start-dev": "nodemon --exec babel-node server.js",
     "lint": "eslint **/*.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
@@ -24,7 +24,6 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.3",
-    "dotenv": "^7.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
