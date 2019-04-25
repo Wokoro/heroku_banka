@@ -9,7 +9,20 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 describe('Bank account creation tests: POST /accounts', () => {
-  const token = process.env.TEST_TOKEN;
+  let token;
+  before(async () => {
+    const loginDetails = {
+      email: 'wokorosamuel@yahoo.com',
+      password: 'password',
+    };
+    try {
+      const loggedInUser = await chai.request(server).post('/api/v1/auth/signin').send(loginDetails);
+      ({ token } = loggedInUser.body.data);
+      token = `Bearer ${token}`;
+    } catch (error) {
+      console.log(error);
+    }
+  });
   describe('tests for successful account creation', () => {
     let res = {};
     before(async () => {
@@ -18,23 +31,26 @@ describe('Bank account creation tests: POST /accounts', () => {
         openingBalance: 23774664,
         type: 'savings',
       };
-      res = await chai.request(server).post('/api/v1/accounts').set('Authorization', token).send(params);
+      try {
+        res = await chai.request(server).post('/api/v1/accounts').set('Authorization', token).send(params);
+      } catch (err) {
+        console.log(err);
+      }
     });
     it('Status 200', () => {
       expect(res.body).to.have.status(200);
     });
     it('Response must contain valid account number', () => {
-      expect(res.body.data).to.have.property('accountNumber');
+      expect(res.body.data).to.have.property('accountnumber');
     });
     it('Response must contain valid firstName', () => {
-      expect(res.body.data).to.have.property('firstName');
+      expect(res.body.data).to.have.property('firstname');
     });
     it('Response must contain a valid lastName', () => {
-      expect(res.body.data).to.have.property('lastName');
+      expect(res.body.data).to.have.property('lastname');
     });
     it('Response must contain a valid email', () => {
       expect(res.body.data).to.have.property('email');
-      expect(res.body.data.email).to.match(/^([A-Za-z0-9_\-.])+@([A-Za-z])+\.([A-Za-z])/);
     });
     it('Response must contain account type', () => {
       expect(res.body.data).to.have.property('type');
@@ -43,19 +59,19 @@ describe('Bank account creation tests: POST /accounts', () => {
       expect(res.body.data).to.have.property('openingBalance');
     });
     it('Bank account must be created', () => {
-      expect(AccountModel.findByAccountNumber(res.body.data.accountNumber)).to.not.be.undefined;
+      expect(AccountModel.find('accountnumber', res.body.data.accountNumber)).to.not.be.undefined;
     });
   });
   describe('tests for unsuccessful account creation', () => {
     after(() => { server.close(); });
     let res = {};
     before(async () => {
-      const params = {
-        password: '',
-        openingBalance: '',
-        type: '',
-      };
-      res = await chai.request(server).post('/api/v1/accounts').set('Authorization', token).send(params);
+      const params = { status: '', openingBalance: 0, type: '' };
+      try {
+        res = await chai.request(server).post('/api/v1/accounts').set('Authorization', token).send(params);
+      } catch (err) {
+        console.log(err);
+      }
     });
     it('Status 400', () => {
       expect(res.body).to.have.status(400);

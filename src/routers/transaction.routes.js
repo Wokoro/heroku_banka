@@ -4,9 +4,10 @@ import TransactionController from '../controllers/transaction.controller';
 import { accountNumberValidation } from '../../middleware/account_validations';
 import accountBalanceValidation from '../../middleware/check_balance';
 import transactionValidation from '../../middleware/transaction_validation';
+import transactionViewValidation from '../../middleware/transaction_view_authentication';
 
 import authStaff from '../../utils/auth.staff';
-import { verifyToken } from '../../utils/utils';
+import { passToken } from '../../utils/utils';
 import authUser from '../../utils/auth.user';
 
 
@@ -19,7 +20,7 @@ const router = express.Router();
 *
 * @apiSuccess (200) {Object} get all transaction `transactions` object
 */
-router.get('', verifyToken, authUser, TransactionController.index);
+router.get('', passToken, authUser, TransactionController.index);
 
 /**
 * @api {post} /api/v1/transactions/:transactionID Get transaction
@@ -28,7 +29,7 @@ router.get('', verifyToken, authUser, TransactionController.index);
 *
 * @apiSuccess (200) {Object} A transaction `transaction` object and status code
 */
-router.get('/:transactionID', transactionValidation, verifyToken, authUser, TransactionController.show);
+router.get('/:transactionID', transactionValidation, passToken, transactionViewValidation, TransactionController.show);
 
 /**
 * @api {post} /api/v1/transactions/:accountNumber/debit Debit Account
@@ -39,7 +40,7 @@ router.get('/:transactionID', transactionValidation, verifyToken, authUser, Tran
 *
 * @apiSuccess (200)
 */
-router.post('/:accountNumber/debit', accountNumberValidation, accountBalanceValidation, verifyToken, authStaff, TransactionController.debit);
+router.post('/:accountNumber/debit', accountNumberValidation, accountBalanceValidation, passToken, authStaff, TransactionController.debit);
 
 /**
 * @api {post} /api/v1/transactions/:accountNumber/credit Credit Account
@@ -50,6 +51,6 @@ router.post('/:accountNumber/debit', accountNumberValidation, accountBalanceVali
 *
 * @apiSuccess (200)
 */
-router.post('/:accountNumber/credit', accountNumberValidation, verifyToken, authStaff, TransactionController.credit);
+router.post('/:accountNumber/credit', accountNumberValidation, passToken, authStaff, TransactionController.credit);
 
 export default router;

@@ -1,3 +1,5 @@
+import { client } from '../../database/db';
+
 /* eslint-disable radix */
 /* eslint-disable no-new */
 /* eslint-disable no-useless-computed-key */
@@ -16,17 +18,15 @@ class Transaction {
     this.newBalance = newBalance;
   }
 
-  static findByTransactionID(id) {
-    return Transaction.all().find(transaction => transaction.id === parseInt(id));
-  }
+  static async create(type, amount, cashierID, oldBalance, newBalance, accountNumber) {
+    const createdOn = new Date();
+    const query1 = `INSERT INTO transactions(type, amount, cashier, oldbalance, newbalance, createdon, accountnumber) 
+    VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+    const query2 = `UPDATE accounts SET balance = ${newBalance} WHERE accountnumber=${accountNumber}`;
+    client.query(query2);
+    const result = await client.query(query1, [type, amount, cashierID, oldBalance, newBalance, createdOn, accountNumber]);
 
-  /**
-  * Funtion to save transaction to dataStore
-  * @param {Transaction} transaction
-  * @param {Account} account
-  */
-  static save(transaction) {
-    Transaction.store.push(transaction);
+    return result.rows[0];
   }
 
   /**
@@ -34,8 +34,10 @@ class Transaction {
   * @param {Integer} id
   * @returns {Transaction} return the found transaction
   */
-  static findById(id) {
-    return Transaction.store.find(transaction => transaction.id === id);
+  static async find(column, value) {
+    const query = `SELECT * FROM transactions WHERE  ${column} = ${value}`;
+    const result = await client.query(query);
+    return result.rows;
   }
 
   /**
@@ -43,8 +45,10 @@ class Transaction {
   * @param {Account} account
   * @returns {Transactions} returns all transactions
   */
-  static all() {
-    return Transaction.store;
+  static async all() {
+    const query = 'SELECT * FROM transactions';
+    const result = await client.query(query);
+    return result.rows;
   }
 }
 

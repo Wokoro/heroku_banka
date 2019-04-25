@@ -2,8 +2,8 @@
 /* eslint-disable quotes */
 /* eslint-disable no-plusplus */
 import bcrypt from 'bcrypt';
-import { DBClient } from '../../db';
-
+import { client } from '../../database/db';
+import { generateToken, hashPassword } from '../../utils/utils';
 
 class User {
   constructor(lastName, firstName, email, password, phoneNumber, type, isAdmin) {
@@ -31,32 +31,41 @@ class User {
   * @param {string} email
   * @returns {User} User
   */
-  static findByEmail(email) {
-    return User.all().find(user => user.email === email);
+  static async find(column, value) {
+    const query = `SELECT * FROM users WHERE ${column} = '${value}'`;
+    const result = await client.query(query);
+    const userRows = await result.rows;
+    return userRows;
   }
 
   /**
-  * Store a given user to datastore
-  * @param {User} user
-  * @returns {User} User
-  */
-  static save(user) {
-    User.store.add(user);
+   *  Create and save a given user in the database
+   *  @params{string} lastName
+   *  @params{string} firstName
+   *  @params{string} email
+   *  @params{string} password
+   *  @params{string} type
+   *  @params{boolean} isAdmin
+   *  @params{string} phoneNumber
+   *
+   * @returns {Promise}
+   */
+  static async create(lastName, firstName, email, password, type, isAdmin, phoneNumber) {
+    const query = `INSERT INTO users(lastname, firstname, email, password, type, isadmin, phonenumber) values($1, $2, $3, $4, $5, $6, $7) RETURNING id, lastname, firstname, email, type, isadmin, phonenumber`;
+    const userPassword = hashPassword(password);
+    const result = await client.query(query, [lastName, firstName, email, userPassword, type, isAdmin, phoneNumber]);
+    result.token = generateToken({ id: result.id, email, isAdmin });
+    return result;
   }
 
   /**
   * Get all users
   * @returns {Array} Users
   */
-  static all() {
-    return [...User.store];
+  static async all() {
+    const result = await client.query('SELECT * FROM users');
+    return result.rows;
   }
 }
-
-User.index = 0;
-User.store = new Set();
-User.save(new User('Douye', 'Samuel', 'samuell@yahoo.com', 'samuel', '09066027359', 'staff', true));
-User.save(new User('Benjamin', 'Tariladou', 'benbizzy@yahoo.com', 'samuel', '09066027359', 'staff', true));
-User.save(new User('Enebimo', 'Joan', 'wokorosamuel@yahoo.com', 'samuel', '09066027359', 'staff', true));
 
 export default User;

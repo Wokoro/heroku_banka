@@ -5,16 +5,18 @@
 import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
+import { initDBPool } from './database/db';
 
 import UserRoutes from './src/routers/user.routes';
 import AccountRoutes from './src/routers/account.routes';
 import TransactionRoutes from './src/routers/transaction.routes';
 
-
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+initDBPool();
 
 // Headers to allow CORS
 app.use((req, res, next) => {
@@ -29,6 +31,7 @@ app.use((req, res, next) => {
 
 // Routes defination
 app.use('/api/v1/auth', UserRoutes);
+app.use('/api/v1/user', UserRoutes);
 app.use('/api/v1/transactions', TransactionRoutes);
 app.use('/api/v1/', AccountRoutes);
 

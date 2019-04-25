@@ -1,9 +1,10 @@
 import AccountModel from '../src/models/account.model';
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
   const { accountNumber } = req.params;
   const { amount } = req.body;
-  const account = AccountModel.findByAccountNumber(accountNumber);
+  const result = await AccountModel.find('accountnumber', accountNumber);
+  const account = result[0];
   if (Number(account.balance) < amount) {
     return res.json({
       status: 400,

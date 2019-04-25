@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable object-curly-newline */
 /* eslint-disable padded-blocks */
 /* eslint-disable indent */
@@ -13,12 +14,17 @@ export default {
   * @param {string} res
   * @returns {object} returns all accounts
   */
-  index(req, res) {
-    const accounts = AccountModel.all();
+  async index(req, res) {
+    try {
+      const accounts = await AccountModel.all();
 
-    if (accounts) { return res.json({ message: 'Operation successful', status: 200, accounts }); }
-
-    return res.json({ status: 400, message: 'No accounts created' });
+      if (!(accounts.length === 0)) {
+        return res.json({ message: 'Operation successful', status: 200, accounts });
+      }
+      return res.json({ status: 400, message: 'No accounts created' });
+    } catch (error) {
+      return res.json({ status: 500, message: `An error occured. ${error}` });
+    }
   },
 
   /**
@@ -27,13 +33,14 @@ export default {
 * @param {string} res
 * @returns {object} returns the transaction details if succesful
 */
-  show(req, res) {
+  async show(req, res) {
     const { accountNumber } = req.params;
-    const account = AccountModel.findByAccountNumber(accountNumber);
-    res.json({
-      status: 200,
-      data: { account },
-    });
+    try {
+      const account = await AccountModel.find('accountnumber', accountNumber);
+      res.json({ status: 200, data: { account: account[0] } });
+    } catch (error) {
+      res.json({ status: 500, message: `An error occured. ${error}` });
+    }
   },
 
   /**
@@ -42,23 +49,24 @@ export default {
   * @param {string} res
   * @returns {object} returns a response object
   */
-  create(req, res) {
+  async create(req, res) {
     const { id, email } = req.body.token;
-
     const { type, status, openingBalance } = req.body;
-
-    const account = new AccountModel(id, type, status, openingBalance);
-    const { firstName, lastName } = UserModel.findByEmail(email);
-
-    const { accountNumber } = account;
-
-    AccountModel.save(account);
-
-    return res.json({
-          message: 'Account Created',
-          status: 200,
-          data: { accountNumber, firstName, lastName, email, type, openingBalance },
-        });
+    try {
+      const { accountnumber } = await AccountModel.create(id, type, status, openingBalance);
+      const result = await UserModel.find('id', id);
+      const { firstname, lastname } = result[0];
+      res.json({
+        message: 'Account Created',
+        status: 200,
+        data: { accountnumber, firstname, lastname, email, type, openingBalance },
+      });
+    } catch (err) {
+      res.json({
+        status: 500,
+        message: `Unable to create account. ${err}`,
+      });
+    }
   },
 
   /**
@@ -67,12 +75,14 @@ export default {
   * @param {string} res
   * @returns {object} returns an object
   */
-  delete(req, res) {
-    const { account } = req.body;
-
-    AccountModel.delete(account);
-
-    res.json({ status: 200, message: 'Account Deleted' });
+  async delete(req, res) {
+    const { accountNumber } = req.params;
+    try {
+     await AccountModel.delete(accountNumber);
+      res.json({ status: 200, message: 'Account Deleted' });
+    } catch (err) {
+      res.json({ status: 400, message: `Unable to Deleted account ${err}` });
+    }
   },
 
   /**
@@ -81,15 +91,18 @@ export default {
   * @param {string} res
   * @returns {object} returns an array of all accounts
   */
-  changeState(req, res) {
-    const { account } = req.body;
-
-    const status = account.toggleState(); // for testing purposes;
-
-    res.json({
-      message: 'Account status changed',
+  async changeStatus(req, res) {
+    const { accountNumber } = req.params;
+    try {
+      const status = await AccountModel.changeStatus(accountNumber); // for testing purposes;
+      res.json({ message: 'Account status changed',
       status: 200,
-      data: { status, accountNumber: account.accountNumber },
-    });
+      data: { status, accountNumber } });
+    } catch (err) {
+      res.json({
+        message: `An error occured. ${err}`,
+        status: 500,
+      });
+    }
   },
 };

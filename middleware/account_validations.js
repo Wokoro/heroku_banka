@@ -2,13 +2,12 @@
 /* eslint-disable no-unused-expressions */
 import AccountModel from '../src/models/account.model';
 
-
 /**
  * Checks if opening balance value is greater than 0
  * @param {integer} opening balance
  * @returns {boolean} returns true or false
  */
-const openingBalanceValidation = balance => balance > 0;
+const openingBalanceValidation = balance => balance > 1000;
 
 /**
  * validates the opening values
@@ -23,7 +22,7 @@ function validateOpeningBalance(req, res, next) {
 
   if (openingBalanceStat) { return next(); }
 
-  return res.send({ status: 400, message: 'Invalid opening balance' });
+  return res.send({ status: 400, message: 'Minimum opening balance is 1000' });
 }
 
 /**
@@ -31,17 +30,19 @@ function validateOpeningBalance(req, res, next) {
  * @param {integer} acount number
  * @returns {boolean} returns account number if present
  */
-function accountNumberValidation(req, res, next) {
-
+async function accountNumberValidation(req, res, next) {
   const { accountNumber } = req.params;
-  const account = AccountModel.findByAccountNumber(accountNumber);
-
-  if (account) {
-    req.body.account = account;
-    return next();
+  try {
+    const result = await AccountModel.find('accountnumber', accountNumber);
+    const account = result[0];
+    if (account) {
+      req.body.balance = account.balance;
+      return next();
+    }
+    return res.json({ status: 400, message: 'Account do not exists' });
+  } catch (err) {
+    return res.json({ status: 500, message: `An error occured. ${err}` });
   }
-
-  return res.json({ status: 400, message: 'Account do not exists' });
 }
 
 export { accountNumberValidation, validateOpeningBalance };

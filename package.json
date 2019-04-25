@@ -4,12 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "nyc mocha --timeout 500 -r @babel/register  tests/**/*.test.js --exit",
+    "test": "npm run migrate && nyc mocha --timeout 20000 -r @babel/register  tests/index.js --exit",
     "build": "babel src -d build",
     "start-dev": "nodemon --exec babel-node server.js",
     "lint": "eslint **/*.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "coverage": "nyc --reporter=text-lcov --reporter=text-summary npm test"
+    "coverage": "nyc --reporter=text-lcov --reporter=text-summary npm test",
+    "migrate": "babel-node database/migrate.js"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",

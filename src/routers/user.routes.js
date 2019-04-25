@@ -2,7 +2,7 @@ import express from 'express';
 
 import userAuthentication from '../../middleware/signin_authentication';
 import signUpValidation from '../../middleware/signup_validation';
-import UniquesnessValidation from '../../middleware/check_uniqueness';
+import userUniquenessCheck from '../../middleware/check_uniqueness';
 import RemovePads from '../../middleware/remove_padding';
 
 import UserController from '../controllers/User.controller';
@@ -17,11 +17,11 @@ const router = express.Router();
 * @apiParam  {object} user details
 */
 
-router.post('/signup', RemovePads, UniquesnessValidation, signUpValidation, UserController.create);
+router.post('/signup', RemovePads, userUniquenessCheck, signUpValidation, UserController.create);
 
 /**
 * @api {post} /api/v1/auth/signin Sign a given user account
-* @apiName Sin in user
+* @apiName Sign in user
 * @apiPermission user
 *
 * @apiParam  {object} user signin details
@@ -29,5 +29,16 @@ router.post('/signup', RemovePads, UniquesnessValidation, signUpValidation, User
 * @apiSuccess (200) {Object} mixed `user account` object
 */
 router.post('/signin', userAuthentication, UserController.signin);
+
+/**
+* @api {post} /api/v1/user/<user-email-address>/accounts  view accounts specific to a user
+* @apiName View user account(s)
+* @apiPermission user
+*
+* @apiParam  {object} user account(s) details
+*
+* @apiSuccess (200) {Object} mixed `user account(s)` object
+*/
+router.post('/:userEmailAddress/accounts', userAuthentication, UserController.accounts);
 
 export default router;
