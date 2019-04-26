@@ -20,7 +20,7 @@ const router = express.Router();
 *
 * @apiSuccess (200) {Object} get all transaction `transactions` object
 */
-router.get('', passToken, authUser, TransactionController.index);
+router.get('', passToken, authUser, TransactionController.getAllTransactions);
 
 /**
 * @api {post} /api/v1/transactions/:transactionID Get transaction
@@ -29,7 +29,7 @@ router.get('', passToken, authUser, TransactionController.index);
 *
 * @apiSuccess (200) {Object} A transaction `transaction` object and status code
 */
-router.get('/:transactionID', transactionValidation, passToken, transactionViewValidation, TransactionController.show);
+router.get('/:transactionID', transactionValidation, passToken, transactionViewValidation, TransactionController.getTransaction);
 
 /**
 * @api {post} /api/v1/transactions/:accountNumber/debit Debit Account
@@ -40,7 +40,7 @@ router.get('/:transactionID', transactionValidation, passToken, transactionViewV
 *
 * @apiSuccess (200)
 */
-router.post('/:accountNumber/debit', accountNumberValidation, accountBalanceValidation, passToken, authStaff, TransactionController.debit);
+router.post('/:accountNumber/debit', accountNumberValidation, accountBalanceValidation, passToken, authStaff, TransactionController.debitAccount);
 
 /**
 * @api {post} /api/v1/transactions/:accountNumber/credit Credit Account
@@ -51,6 +51,6 @@ router.post('/:accountNumber/debit', accountNumberValidation, accountBalanceVali
 *
 * @apiSuccess (200)
 */
-router.post('/:accountNumber/credit', accountNumberValidation, passToken, authStaff, TransactionController.credit);
+router.post('/:accountNumber/credit', accountNumberValidation, passToken, authStaff, TransactionController.creditAccount);
 
 export default router;

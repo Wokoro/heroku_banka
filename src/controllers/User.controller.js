@@ -12,17 +12,17 @@ export default {
  * @param {string} res
  * @returns {object} object containing status code and created user details
  */
-  async create(req, res) {
+  async createUser(req, res) {
     const { lastName, firstName, email, password, phoneNumber, type, isAdmin } = req.body;
-
     try {
-      const result = await UserModel.create(lastName, firstName, email, password, type, isAdmin, phoneNumber);
+      const result = await UserModel.createUser(lastName, firstName, email, password, type, isAdmin, phoneNumber);
       const user = result.rows[0];
       const { id } = user;
       user.token = generateToken({ id, email }, email);
       res.json({ status: 200, data: user });
     } catch (err) {
-      res.json({ status: 500, message: err });
+      console.log(err);
+      res.json({ status: 500, message: JSON.stringify(err) });
     }
   },
 
@@ -32,7 +32,7 @@ export default {
   * @param {string} res
   * @returns {object} object containing status code and signedup user
   */
-  signin(req, res) {
+  signinUser(req, res) {
     const { id, email, firstname, lastname, password } = req.user;
 
     return res.json({
@@ -54,11 +54,11 @@ export default {
  * @param {string} res
  * @returns {object} object containing status code and user account(s) if successful
  */
-  async accounts(req, res) {
+  async getAllUserAccounts(req, res) {
     const { userEmailAddress } = req.params;
     try {
-      const { accountnumber } = await UserModel.find('email', userEmailAddress);
-      const userAccounts = await AccountModel.find('accountnumber', accountnumber);
+      const { accountnumber } = await UserModel.findUser('email', userEmailAddress);
+      const userAccounts = await AccountModel.findUser('accountnumber', accountnumber);
       res.json({ status: 200, data: userAccounts });
     } catch (err) {
       res.json({ status: 500, message: err });

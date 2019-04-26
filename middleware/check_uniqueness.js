@@ -4,7 +4,7 @@ import UserModel from '../src/models/user.model';
 export default async (req, res, next) => {
   const { email } = req.body;
   try {
-    const user = await UserModel.find('email', email);
+    const user = await UserModel.findUser('email', email);
     if (!user[0]) {
       return next();
     }

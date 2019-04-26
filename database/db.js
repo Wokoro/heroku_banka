@@ -1,16 +1,19 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-console */
+
+import { config } from 'dotenv';
 import pg from 'pg';
 
-const config = {
-  user: process.env.DB_USER || 'postgres', // this is the db user credential
-  database: process.env.DB_NAME || 'banka',
-  password: process.env.DB_PASSWORD || 'samsizzy199',
-  max: process.env.DB_MAX || 10, // max number of clients in the pool
-  idleTimeoutMillis: process.env.DB_IDLETIMEOUTMILLIS || 30000,
+config();
+const configDB = {
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  max: process.env.DB_MAX,
+  idleTimeoutMillis: process.env.DB_IDLETIMEOUTMILLIS,
 };
 
-const pool = new pg.Pool(config);
+const pool = new pg.Pool(configDB);
 
 const client = pool;
 
@@ -58,9 +61,9 @@ async function initDBPool() {
   }
 }
 async function dropTables() {
-  const query1 = 'TRUNCATE transactions';
-  const query2 = 'TRUNCATE accounts';
-  const query3 = 'TRUNCATE users';
+  const query1 = 'TRUNCATE transactions CASCADE';
+  const query2 = 'TRUNCATE accounts CASCADE';
+  const query3 = 'TRUNCATE users CASCADE';
   try {
     await pool.query(query1);
     await pool.query(query2);

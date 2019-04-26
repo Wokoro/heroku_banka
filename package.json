@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "npm run migrate && nyc mocha --timeout 20000 -r @babel/register  tests/index.js --exit",
-    "start": "node server.js",
+    "test": "npm run migrate && nyc mocha --timeout 600000 -r @babel/register  tests/index.js --exit",
+    "build": "babel src -d build",
     "start-dev": "nodemon --exec babel-node server.js",
     "lint": "eslint **/*.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
@@ -40,6 +40,7 @@
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "dotenv": "^7.0.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.10.0",
     "request": "^2.88.0"

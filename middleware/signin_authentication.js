@@ -8,10 +8,10 @@ import UserModel from '../src/models/user.model';
  * @param {string} res,
  * @param {string} next
  */
-export default async function (req, res, next) {
+export default async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const result = await UserModel.find('email', email);
+    const result = await UserModel.findUser('email', email);
     const user = result[0];
     const userPassword = user ? bcrypt.compareSync(password, user.password) : false;
     if (user && userPassword) {
@@ -25,4 +25,4 @@ export default async function (req, res, next) {
     res.json({ status: 500, message: 'An error has occured' });
     console.log(err);
   }
-}
+};

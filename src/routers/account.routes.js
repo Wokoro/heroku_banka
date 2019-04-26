@@ -18,7 +18,7 @@ const router = express.Router();
 * @apiParam  {String} [startBalance] start balance of account
 * @apiParam  {String} [status] Active or domant
 */
-router.post('/accounts', validateOpeningBalance, passToken, AccountController.create);
+router.post('/accounts', validateOpeningBalance, passToken, AccountController.createAccount);
 
 /**
 * @api {get} /api/v1/accounts/:accountNumber   gets an account
@@ -26,7 +26,7 @@ router.post('/accounts', validateOpeningBalance, passToken, AccountController.cr
 * @apiPermission staff
 *
 */
-router.get('/accounts/:accountNumber', accountNumberValidation, passToken, authValidUsers, AccountController.show);
+router.get('/accounts/:accountNumber', accountNumberValidation, passToken, authValidUsers, AccountController.getAccount);
 
 /**
 * @api {get} /api/v1/accounts   gets all accounts
@@ -34,7 +34,7 @@ router.get('/accounts/:accountNumber', accountNumberValidation, passToken, authV
 * @apiPermission admin
 *
 */
-router.get('/accounts', passToken, authAdmin, AccountController.index);
+router.get('/accounts', passToken, authAdmin, AccountController.getAllAccounts);
 
 /**
 * @api {patch} /api/v1/account/:accountNumber Change a specific account status
@@ -49,7 +49,7 @@ router.patch('/account/:accountNumber', accountNumberValidation, passToken, auth
 * @apiName Delete account
 * @apiPermission admin/staff
 */
-router.delete('/account/:accountNumber', passToken, accountNumberValidation, authAdmin, AccountController.delete);
+router.delete('/account/:accountNumber', passToken, accountNumberValidation, authAdmin, AccountController.deleteAccount);
 
 
 export default router;

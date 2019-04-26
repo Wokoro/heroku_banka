@@ -14,9 +14,9 @@ export default {
   * @param {string} res
   * @returns {object} returns all accounts
   */
-  async index(req, res) {
+  async getAllAccounts(req, res) {
     try {
-      const accounts = await AccountModel.all();
+      const accounts = await AccountModel.getAllAccounts();
 
       if (!(accounts.length === 0)) {
         return res.json({ message: 'Operation successful', status: 200, accounts });
@@ -26,17 +26,16 @@ export default {
       return res.json({ status: 500, message: `An error occured. ${error}` });
     }
   },
-
-  /**
+/**
 * Function to get a specific transaction
 * @param {string} req
 * @param {string} res
 * @returns {object} returns the transaction details if succesful
 */
-  async show(req, res) {
+  async getAccount(req, res) {
     const { accountNumber } = req.params;
     try {
-      const account = await AccountModel.find('accountnumber', accountNumber);
+      const account = await AccountModel.findAccount('accountnumber', accountNumber);
       res.json({ status: 200, data: { account: account[0] } });
     } catch (error) {
       res.json({ status: 500, message: `An error occured. ${error}` });
@@ -49,12 +48,12 @@ export default {
   * @param {string} res
   * @returns {object} returns a response object
   */
-  async create(req, res) {
+  async createAccount(req, res) {
     const { id, email } = req.body.token;
     const { type, status, openingBalance } = req.body;
     try {
-      const { accountnumber } = await AccountModel.create(id, type, status, openingBalance);
-      const result = await UserModel.find('id', id);
+      const { accountnumber } = await AccountModel.createAccount(id, type, status, openingBalance);
+      const result = await UserModel.findUser('id', id);
       const { firstname, lastname } = result[0];
       res.json({
         message: 'Account Created',
@@ -75,7 +74,7 @@ export default {
   * @param {string} res
   * @returns {object} returns an object
   */
-  async delete(req, res) {
+  async deleteAccount(req, res) {
     const { accountNumber } = req.params;
     try {
      await AccountModel.delete(accountNumber);

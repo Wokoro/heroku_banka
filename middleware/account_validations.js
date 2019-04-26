@@ -14,7 +14,7 @@ const openingBalanceValidation = balance => balance > 1000;
  * @param {integer} opening balance
  * @returns {boolean} returns true or false
  */
-function validateOpeningBalance(req, res, next) {
+const validateOpeningBalance = (req, res, next) => {
 
   const { openingBalance } = req.body;
 
@@ -23,17 +23,17 @@ function validateOpeningBalance(req, res, next) {
   if (openingBalanceStat) { return next(); }
 
   return res.send({ status: 400, message: 'Minimum opening balance is 1000' });
-}
+};
 
 /**
  * validates the account number to be valid
  * @param {integer} acount number
  * @returns {boolean} returns account number if present
  */
-async function accountNumberValidation(req, res, next) {
+const accountNumberValidation = async (req, res, next) => {
   const { accountNumber } = req.params;
   try {
-    const result = await AccountModel.find('accountnumber', accountNumber);
+    const result = await AccountModel.findAccount('accountnumber', accountNumber);
     const account = result[0];
     if (account) {
       req.body.balance = account.balance;
@@ -43,6 +43,6 @@ async function accountNumberValidation(req, res, next) {
   } catch (err) {
     return res.json({ status: 500, message: `An error occured. ${err}` });
   }
-}
+};
 
 export { accountNumberValidation, validateOpeningBalance };

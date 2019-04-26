@@ -8,10 +8,10 @@ import TransactionModel from '../src/models/transaction.model';
  */
 
 
-async function transactionNumberValidation(req, res, next) {
+const transactionNumberValidation = async (req, res, next) => {
   const { transactionID } = req.params;
   try {
-    const transaction = await TransactionModel.find('id', transactionID);
+    const transaction = await TransactionModel.findTransaction('id', transactionID);
     if (transaction) {
       req.body.transaction = transaction[0];
       return next();
@@ -20,5 +20,5 @@ async function transactionNumberValidation(req, res, next) {
   } catch (error) {
     return res.json({ status: 500, message: `An error occured. ${error}` });
   }
-}
+};
 export default transactionNumberValidation;

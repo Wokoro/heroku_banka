@@ -75,7 +75,7 @@ function validatePassword(password, confirmPassword) {
  * @param {string} res
  *
  */
-export default function signUpValidation(req, res, next) {
+const signUpValidation = (req, res, next) => {
   const { lastName, firstName, email, password, confirmPassword } = req.body;
 
   validateNameFields(lastName, firstName);
@@ -90,4 +90,6 @@ export default function signUpValidation(req, res, next) {
     res.json({ status: 400, message: getErrorMessages() });
     ERROR_MESSAGES = [];
   }
-}
+};
+
+export default signUpValidation;

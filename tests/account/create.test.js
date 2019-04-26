@@ -59,7 +59,7 @@ describe('Bank account creation tests: POST /accounts', () => {
       expect(res.body.data).to.have.property('openingBalance');
     });
     it('Bank account must be created', () => {
-      expect(AccountModel.find('accountnumber', res.body.data.accountNumber)).to.not.be.undefined;
+      expect(AccountModel.findAccount('accountnumber', res.body.data.accountNumber)).to.not.be.undefined;
     });
   });
   describe('tests for unsuccessful account creation', () => {

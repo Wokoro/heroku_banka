@@ -1,53 +1,19 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-use-before-define */
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 import { client } from '../../database/db';
 
 class Account {
-  constructor(owner, type, status, balance, accountNumber) {
-    this.id = ++Account.index;
-    this.createdOn = new Date();
-    this.owner = owner;
-    this.accountNumber = typeof accountNumber === 'undefined' ? Account.genAccountNumber() : accountNumber;
-    this.type = type;
-    this.status = status;
-    this.balance = balance;
-  }
-
-  /**
-    * Returns account id
-    * @returns {Integer} returns user id
-    */
-  getId() {
-    return this.id;
-  }
-
-  /**
-  * Get account balance
-  * @returns {object} return user balance
-  */
-  getbalance() {
-    return this.balance;
-  }
-
   /**
   * Debit an account
   * @param {string} account
   * @returns {boolen} return new amount or false if balance is low
   */
-  // debit(account) {
-  //   let balance = Number(this.balance);
-  //   const debitAmt = Number(account);
-  //   const value = balance < debitAmt ? false : balance -= debitAmt;
-  //   if (value) {
-  //     this.balance = balance.toString();
-  //   }
-  //   return this.balance;
-  // }
 
-  static async debit(amount) {
+  static async debitAccount(amount) {
     const { accountNumber } = account;
-    const account = await this.find('accountnumber', accountNumber);
+    const account = await Account.findAccount('accountnumber', accountNumber);
     let { balance } = account;
     const debitAmt = Number(amount);
     balance -= debitAmt;
@@ -56,7 +22,12 @@ class Account {
       .then(result => result.rows[0]);
   }
 
-  static async create(ownerID, type, status, balance) {
+  /**
+  * Create an account
+  * @param {string} account number
+  * @returns {boolen} return new amount or false if balance is low
+  */
+  static async createAccount(ownerID, type, status, balance) {
     const accountNumber = Account.genAccountNumber();
     const createdOn = new Date();
     const query = `INSERT INTO accounts(accountnumber, createdon, status, userid, type, balance) 
@@ -71,9 +42,9 @@ class Account {
   * @param {string} req
   * @returns {Integer} returns account balance
   */
-  async credit(amount) {
+  static async creditAccount(amount) {
     const { accountNumber } = account;
-    const account = await this.find('accountnumber', accountNumber);
+    const account = await Account.findAccount('accountnumber', accountNumber);
     let { balance } = account;
     const debitAmt = Number(amount);
     balance += debitAmt;
@@ -87,7 +58,7 @@ class Account {
   * @returns {string} returns account status
   */
   static async changeStatus(accountNumber) {
-    const response = await Account.find('accountnumber', accountNumber);
+    const response = await Account.findAccount('accountnumber', accountNumber);
     const { status } = response[0];
     const newStatus = status === 'active' ? 'domant' : 'active';
     const query = `UPDATE accounts SET status = '${newStatus}' WHERE accountnumber = ${accountNumber} RETURNING status`;
@@ -110,7 +81,7 @@ class Account {
   * @param {Integer} accountNumber
   * @returns {Account} returns matched account
   */
-  static async find(column, value) {
+  static async findAccount(column, value) {
     const query = `SELECT * FROM accounts WHERE ${column} = '${value}'`;
     const result = await client.query(query);
     return result.rows;
@@ -120,7 +91,7 @@ class Account {
   * Get all account account numbers
   * @returns {Array} returns all account numbers
   */
-  static async all() {
+  static async getAllAccounts() {
     const query = 'SELECT * FROM accounts';
     const result = await client.query(query);
     return result.rows;
@@ -133,10 +104,6 @@ class Account {
   static genAccountNumber() {
     return Math.floor(Math.random() * (999999999 - 111111111) + 999999999);
   }
-  /**
-   * Create insert new account to database
-   * @params {account}
-   */
 }
 
 export default Account;

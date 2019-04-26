@@ -17,7 +17,7 @@ const router = express.Router();
 * @apiParam  {object} user details
 */
 
-router.post('/signup', RemovePads, userUniquenessCheck, signUpValidation, UserController.create);
+router.post('/signup', RemovePads, userUniquenessCheck, signUpValidation, UserController.createUser);
 
 /**
 * @api {post} /api/v1/auth/signin Sign a given user account
@@ -28,7 +28,7 @@ router.post('/signup', RemovePads, userUniquenessCheck, signUpValidation, UserCo
 *
 * @apiSuccess (200) {Object} mixed `user account` object
 */
-router.post('/signin', userAuthentication, UserController.signin);
+router.post('/signin', userAuthentication, UserController.signinUser);
 
 /**
 * @api {post} /api/v1/user/<user-email-address>/accounts  view accounts specific to a user
@@ -39,6 +39,6 @@ router.post('/signin', userAuthentication, UserController.signin);
 *
 * @apiSuccess (200) {Object} mixed `user account(s)` object
 */
-router.post('/:userEmailAddress/accounts', userAuthentication, UserController.accounts);
+router.post('/:userEmailAddress/accounts', userAuthentication, UserController.getAllUserAccounts);
 
 export default router;

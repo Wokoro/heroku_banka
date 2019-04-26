@@ -27,6 +27,7 @@ describe('Create user account tests: POST /auth/signup', () => {
       res = await chai.request(server).post('/api/v1/auth/signup').send(params);
     });
     it('Response status must be 200', () => {
+      console.log(res.body);
       expect(res.body).to.have.status(200);
     });
     it('Response must contain token', () => {
@@ -45,7 +46,7 @@ describe('Create user account tests: POST /auth/signup', () => {
       expect(res.body.data).to.have.property('email');
     });
     it('User account should be stored', () => {
-      expect(UserModel.find('email', res.body.data.email)).to.not.be.undefined;
+      expect(UserModel.findUser('email', res.body.data.email)).to.not.be.undefined;
     });
   });
   describe('tests for unsuccessful signup', () => {

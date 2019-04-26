@@ -1,8 +1,13 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { config } from 'dotenv';
 
-const privateKey = '-----BEGIN RSA PRIVATE KEY-----\nMIIBOgIBAAJAXvAed31PLxc6rb5LOaP9CW14reZUG8C50WnpvDPi/xGeYq0kRuiY\nIOUQ1PRKPC+q21gWuOsFz/qaSweddsLsAQIDAQABAkBcFHC4XCWM+u7CzSqRAWjO\n2AqQQDGbqVWQszUsgPbNhM6IDV2wczZ0bIlehV0ha4hxHBvD97+YP0x1hsl14u7x\nAiEAobYKAPry4oFRTHge23FrHBSp/IeQ4XzjR1rrdfOlVjMCIQCWSyAYG/cZbLkJ\nq6nwGALpOtAjgQArs+5nAeHPFUL4+wIgOffsrB9JVCLxRs1EmnuU3tMVgH4EVKCV\nRK31/ClkGnsCIQCM9bsNQbVZMELAUjQZzrt0Okga9JPPaXwROo+qZRuiXwIhAIa0\nuTq88tjst8dmsUfHICBHlcXT3IyX60HNn67G2wL5\n-----END RSA PRIVATE KEY-----'.replace(/\\n/g, '\n');
-const publicKey = '-----BEGIN PUBLIC KEY-----\nMFswDQYJKoZIhvcNAQEBBQADSgAwRwJAXvAed31PLxc6rb5LOaP9CW14reZUG8C5\n0WnpvDPi/xGeYq0kRuiYIOUQ1PRKPC+q21gWuOsFz/qaSweddsLsAQIDAQAB\n-----END PUBLIC KEY-----'.replace(/\\n/g, '\n');
+config();
+
+let privateKey = process.env.PRI_KEY;
+const publicKey = process.env.PUB_KEY;
+
+privateKey = 'thisisaprivatekey';
 
 
 const issuer = 'Authorization/Resource/BankaServer';
@@ -21,15 +26,17 @@ const verifyOptions = {
   algorithm: [`[${algorithm}`],
 };
 
-const generateToken = payload => jwt.sign(payload, privateKey, signOptions);
+const generateToken = payload => jwt.sign(payload, privateKey);
 
-const verifyToken = token => jwt.verify(token, publicKey, verifyOptions);
+const verifyToken = token => jwt.verify(token, privateKey);
 
 const passToken = async (req, res, next) => {
   const rawToken = req.headers.authorization || req.headers['x-access-token'] || req.body.token;
+
   const token = rawToken.split(' ')[1];
   try {
     const issureToken = verifyToken(token);
+
     if (issureToken) {
       req.body.token = issureToken;
       next();

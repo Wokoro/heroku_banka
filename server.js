@@ -43,7 +43,7 @@ app.use((req, res) => {
   });
 });
 
-const server = app.listen(process.env.SERVER_PORT || 3000, () => {
+const server = app.listen(process.env.SERVER_PORT, () => {
   // eslint-disable-next-line no-console
   console.log('listening on port 3000');
 });
