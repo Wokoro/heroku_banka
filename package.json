@@ -2,15 +2,18 @@
   "name": "banka_api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./build/server.js",
   "scripts": {
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel -d ./build ./server -s",
     "test": "npm run migrate && nyc mocha --timeout 600000 -r @babel/register  tests/index.js --exit",
-    "build": "babel src -d build",
+    "build": "npm run clean && npm run build-server",
     "start-dev": "nodemon --exec babel-node server.js",
     "lint": "eslint **/*.js",
+    "start": "node ./build/server.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc --reporter=text-lcov --reporter=text-summary npm test",
-    "migrate": "babel-node database/migrate.js"
+    "migrate": "babel-node ./server/database/migrate.js"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
