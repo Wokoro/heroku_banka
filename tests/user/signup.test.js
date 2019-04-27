@@ -2,8 +2,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
-import server from '../../server';
-import UserModel from '../../src/models/user.model';
+import server from '../../server/server';
+import UserModel from '../../server/src/models/user.model';
 
 const { expect } = chai;
 
