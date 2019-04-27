@@ -4,27 +4,8 @@ import { config } from 'dotenv';
 
 config();
 
-let privateKey = process.env.PRI_KEY;
-const publicKey = process.env.PUB_KEY;
+const privateKey = process.env.PRI_KEY;
 
-privateKey = 'thisisaprivatekey';
-
-
-const issuer = 'Authorization/Resource/BankaServer';
-const subject = '';
-const algorithm = 'RS256';
-
-const signOptions = {
-  issuer,
-  subject,
-  algorithm,
-};
-
-const verifyOptions = {
-  issuer,
-  subject,
-  algorithm: [`[${algorithm}`],
-};
 
 const generateToken = payload => jwt.sign(payload, privateKey);
 
@@ -54,9 +35,7 @@ const passToken = async (req, res, next) => {
  * @returns {boolean}
  *
  */
-function isEmpty(value) {
-  return value === '' || typeof value === 'undefined';
-}
+const isEmpty = value => value === '' || typeof value === 'undefined';
 
 /**
  * Trims a given input value
@@ -64,9 +43,7 @@ function isEmpty(value) {
  * @returns {String}
  *
  */
-function trim(value) {
-  return value.toString().trim();
-}
+const trim = value => value.toString().trim();
 
 /**
  * Hashes user password

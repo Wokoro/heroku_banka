@@ -26,29 +26,29 @@ const userTable = `CREATE TABLE IF NOT EXISTS
               password VARCHAR(128) NOT NULL,
               type VARCHAR(128) NOT NULL,
               isAdmin VARCHAR(128) NOT NULL,
-              phoneNumber INT NOT NULL
+              phoneNumber VARCHAR(128) NOT NULL
             );`;
 
 const accountTable = `CREATE TABLE IF NOT EXISTS
               accounts(
-                accountNumber INTEGER PRIMARY KEY UNIQUE,
+                accountNumber INT PRIMARY KEY UNIQUE,
                 userid INT REFERENCES users (id),
                 createdOn Date NOT NULL,
                 type VARCHAR(128) NOT NULL,
                 status VARCHAR(128) NOT NULL,
-                balance VARCHAR(128) NOT NULL
+                balance FLOAT NOT NULL
               );`;
 
 const transactionTable = `CREATE TABLE IF NOT EXISTS
                     transactions(
                       id SERIAL PRIMARY KEY UNIQUE,
-                      accountNumber INTEGER REFERENCES accounts (accountNumber),
+                      accountNumber INT REFERENCES accounts (accountNumber),
                       createdOn VARCHAR(128) NOT NULL,
                       type VARCHAR(128) NOT NULL,
                       cashier INT NOT NULL,
-                      amount INT NOT NULL,
-                      oldBalance INT NOT NULL,
-                      newBalance INT NOT NULL
+                      amount FLOAT NOT NULL,
+                      oldBalance FLOAT NOT NULL,
+                      newBalance FLOAT NOT NULL
                     );`;
 
 async function initDBPool() {

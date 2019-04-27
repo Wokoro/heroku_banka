@@ -9,20 +9,30 @@ import AccountModel from '../src/models/account.model';
  */
 const openingBalanceValidation = balance => balance > 1000;
 
+const checkType = value => value === 'savings' || value === 'current';
+
+const checkStatus = value => value === 'domant' || value === 'draft' || value === 'active';
+
 /**
  * validates the opening values
  * @param {integer} opening balance
  * @returns {boolean} returns true or false
  */
-const validateOpeningBalance = (req, res, next) => {
+const validateAccountCreationFields = (req, res, next) => {
+  const errorMessages = [];
 
-  const { openingBalance } = req.body;
+  const { openingBalance, status, type } = req.body;
 
   const openingBalanceStat = openingBalanceValidation(openingBalance);
+  const typeStat = checkType(type);
+  const statStat = checkStatus(status);
 
-  if (openingBalanceStat) { return next(); }
+  if (!openingBalanceStat) { errorMessages.push('Opening amount should be greater than 1000'); }
+  if (!typeStat) { errorMessages.push('Account type can either be savings or current'); }
+  if (!statStat) { errorMessages.push('Account stat can either be domant, active or draft'); }
 
-  return res.send({ status: 400, message: 'Minimum opening balance is 1000' });
+  if (errorMessages.length === 0) { return next(); }
+  return res.json({ status: 400, message: errorMessages });
 };
 
 /**
@@ -45,4 +55,4 @@ const accountNumberValidation = async (req, res, next) => {
   }
 };
 
-export { accountNumberValidation, validateOpeningBalance };
+export { accountNumberValidation, validateAccountCreationFields };

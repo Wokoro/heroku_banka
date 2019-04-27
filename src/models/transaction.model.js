@@ -22,8 +22,8 @@ class Transaction {
     const createdOn = new Date();
     const query1 = `INSERT INTO transactions(type, amount, cashier, oldbalance, newbalance, createdon, accountnumber) 
     VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
-    const query2 = `UPDATE accounts SET balance = ${newBalance} WHERE accountnumber=${accountNumber}`;
-    client.query(query2);
+    const query2 = 'UPDATE accounts SET balance = $1 WHERE accountnumber=$2';
+    client.query(query2, [newBalance, accountNumber]);
     const result = await client.query(query1, [type, amount, cashierID, oldBalance, newBalance, createdOn, accountNumber]);
     return result.rows[0];
   }
@@ -34,8 +34,8 @@ class Transaction {
   * @returns {Transaction} return the found transaction
   */
   static async findTransaction(column, value) {
-    const query = `SELECT * FROM transactions WHERE  ${column} = ${value}`;
-    const result = await client.query(query);
+    const query = `SELECT * FROM transactions WHERE  ${column} = $1`;
+    const result = await client.query(query, [value]);
     return result.rows;
   }
 
@@ -50,6 +50,5 @@ class Transaction {
     return result.rows;
   }
 }
-
 
 export default Transaction;

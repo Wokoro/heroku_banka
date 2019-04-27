@@ -12,8 +12,8 @@ class User {
   * @returns {User} User
   */
   static async findUser(column, value) {
-    const query = `SELECT * FROM users WHERE ${column} = '${value}'`;
-    const result = await client.query(query);
+    const query = `SELECT * FROM users WHERE ${column} = $1`;
+    const result = await client.query(query, [value]);
     const userRows = await result.rows;
     return userRows;
   }
