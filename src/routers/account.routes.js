@@ -3,9 +3,10 @@ import express from 'express';
 import AccountController from '../controllers/account.controller';
 import authAdmin from '../../utils/auth.staff';
 import { passToken } from '../../utils/utils';
-import { validateOpeningBalance, accountNumberValidation } from '../../middleware/account_validations';
+import { validateAccountCreationFields, accountNumberValidation } from '../../middleware/account.validations';
 import authUser from '../../utils/auth.user';
-import authValidUsers from '../../middleware/account_view_authentication';
+import UserRestricter from '../../middleware/restric.user';
+import authValidUsers from '../../middleware/account.view.authentication';
 
 
 const router = express.Router();
@@ -18,7 +19,7 @@ const router = express.Router();
 * @apiParam  {String} [startBalance] start balance of account
 * @apiParam  {String} [status] Active or domant
 */
-router.post('/accounts', validateOpeningBalance, passToken, AccountController.createAccount);
+router.post('/accounts', validateAccountCreationFields, passToken, AccountController.createAccount);
 
 /**
 * @api {get} /api/v1/accounts/:accountNumber   gets an account
@@ -34,7 +35,7 @@ router.get('/accounts/:accountNumber', accountNumberValidation, passToken, authV
 * @apiPermission admin
 *
 */
-router.get('/accounts', passToken, authAdmin, AccountController.getAllAccounts);
+router.get('/accounts', passToken, UserRestricter, authAdmin, AccountController.getAllAccounts);
 
 /**
 * @api {patch} /api/v1/account/:accountNumber Change a specific account status

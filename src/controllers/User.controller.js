@@ -21,8 +21,7 @@ export default {
       user.token = generateToken({ id, email }, email);
       res.json({ status: 200, data: user });
     } catch (err) {
-      console.log(err);
-      res.json({ status: 500, message: JSON.stringify(err) });
+      res.json({ status: 500, message: `An error occured. ${err}` });
     }
   },
 
@@ -57,11 +56,15 @@ export default {
   async getAllUserAccounts(req, res) {
     const { userEmailAddress } = req.params;
     try {
-      const { accountnumber } = await UserModel.findUser('email', userEmailAddress);
-      const userAccounts = await AccountModel.findUser('accountnumber', accountnumber);
-      res.json({ status: 200, data: userAccounts });
+      const result = await UserModel.findUser('email', userEmailAddress);
+      const { id } = await result[0];
+      const userAccounts = await AccountModel.findAccount('userid', id);
+      if (userAccounts.length === 0) {
+        return res.json({ status: 400, message: 'No accounts created' });
+      }
+      return res.json({ status: 200, data: { accounts: userAccounts } });
     } catch (err) {
-      res.json({ status: 500, message: err });
+      return res.json({ status: 500, message: `An error occured. ${err}` });
     }
   },
 };

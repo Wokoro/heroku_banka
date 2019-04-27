@@ -1,10 +1,13 @@
 import express from 'express';
 
-import userAuthentication from '../../middleware/signin_authentication';
-import signUpValidation from '../../middleware/signup_validation';
-import userUniquenessCheck from '../../middleware/check_uniqueness';
-import RemovePads from '../../middleware/remove_padding';
-
+import userAuthentication from '../../middleware/signin.authentication';
+import signUpValidation from '../../middleware/signup.validation';
+import userUniquenessCheck from '../../middleware/check.user.account.uniqueness';
+import EmailValidation from '../../middleware/authenticate.mail.presence';
+import RemovePads from '../../middleware/remove.padding';
+import staffVerification from '../../utils/auth.staff';
+import validUserAuthentication from '../../middleware/account.view.authentication';
+import { passToken } from '../../utils/utils';
 import UserController from '../controllers/User.controller';
 
 const router = express.Router();
@@ -30,8 +33,9 @@ router.post('/signup', RemovePads, userUniquenessCheck, signUpValidation, UserCo
 */
 router.post('/signin', userAuthentication, UserController.signinUser);
 
+
 /**
-* @api {post} /api/v1/user/<user-email-address>/accounts  view accounts specific to a user
+* @api {get} /api/v1/user/<user-email-address>/accounts  view accounts specific to a user
 * @apiName View user account(s)
 * @apiPermission user
 *
@@ -39,6 +43,6 @@ router.post('/signin', userAuthentication, UserController.signinUser);
 *
 * @apiSuccess (200) {Object} mixed `user account(s)` object
 */
-router.post('/:userEmailAddress/accounts', userAuthentication, UserController.getAllUserAccounts);
+router.get('/:userEmailAddress/accounts', passToken, EmailValidation, validUserAuthentication, UserController.getAllUserAccounts);
 
 export default router;

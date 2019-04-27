@@ -70,7 +70,7 @@ describe('Bank account creation tests: POST /accounts', () => {
       try {
         res = await chai.request(server).post('/api/v1/accounts').set('Authorization', token).send(params);
       } catch (err) {
-        console.log(err);
+        res(err);
       }
     });
     it('Status 400', () => {

@@ -1,10 +1,10 @@
 import express from 'express';
 
 import TransactionController from '../controllers/transaction.controller';
-import { accountNumberValidation } from '../../middleware/account_validations';
-import accountBalanceValidation from '../../middleware/check_balance';
-import transactionValidation from '../../middleware/transaction_validation';
-import transactionViewValidation from '../../middleware/transaction_view_authentication';
+import { accountNumberValidation } from '../../middleware/account.validations';
+import accountBalanceValidation from '../../middleware/check.account.balance';
+import transactionValidation from '../../middleware/transaction.validation';
+import transactionViewValidation from '../../middleware/transaction.view.authentication';
 
 import authStaff from '../../utils/auth.staff';
 import { passToken } from '../../utils/utils';

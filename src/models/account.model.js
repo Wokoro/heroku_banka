@@ -17,9 +17,9 @@ class Account {
     let { balance } = account;
     const debitAmt = Number(amount);
     balance -= debitAmt;
-    const query = `UPDATE accounts SET accountbalance = ${balance} WHERE accountnumber = ${accountNumber}`;
-    return client.query(query)
-      .then(result => result.rows[0]);
+    const query = 'UPDATE accounts SET accountbalance = $1 WHERE accountnumber = $2';
+    const result = await client.query(query, [balance, accountNumber]);
+    return result.rows[0];
   }
 
   /**
@@ -31,8 +31,7 @@ class Account {
     const accountNumber = Account.genAccountNumber();
     const createdOn = new Date();
     const query = `INSERT INTO accounts(accountnumber, createdon, status, userid, type, balance) 
-    values($1, $2, $3, $4, $5, $6)
-    RETURNING accountnumber`;
+    values($1, $2, $3, $4, $5, $6) RETURNING accountnumber`;
     const result = await client.query(query, [accountNumber, createdOn, status, ownerID, type, balance]);
     return result.rows[0];
   }
@@ -48,8 +47,8 @@ class Account {
     let { balance } = account;
     const debitAmt = Number(amount);
     balance += debitAmt;
-    const query = `UPDATE accounts SET accountbalance = ${balance} WHERE accountnumber = ${accountNumber}`;
-    const result = await client.query(query);
+    const query = 'UPDATE accounts SET accountbalance = $1 WHERE accountnumber = $2';
+    const result = await client.query(query, [balance, accountNumber]);
     return result.rows[0];
   }
 
@@ -61,8 +60,8 @@ class Account {
     const response = await Account.findAccount('accountnumber', accountNumber);
     const { status } = response[0];
     const newStatus = status === 'active' ? 'domant' : 'active';
-    const query = `UPDATE accounts SET status = '${newStatus}' WHERE accountnumber = ${accountNumber} RETURNING status`;
-    const result = await client.query(query);
+    const query = 'UPDATE accounts SET status = $1 WHERE accountnumber = $2 RETURNING status';
+    const result = await client.query(query, [newStatus, accountNumber]);
     return result.rows[0].status;
   }
 
@@ -71,8 +70,8 @@ class Account {
   * @param {string} val
   */
   static async delete(accountnumber) {
-    const query = `DELETE FROM accounts WHERE accountNumber = ${accountnumber}`;
-    const result = await client.query(query);
+    const query = 'DELETE FROM accounts WHERE accountNumber = $1';
+    const result = await client.query(query, [accountnumber]);
     return result;
   }
 
@@ -82,8 +81,8 @@ class Account {
   * @returns {Account} returns matched account
   */
   static async findAccount(column, value) {
-    const query = `SELECT * FROM accounts WHERE ${column} = '${value}'`;
-    const result = await client.query(query);
+    const query = `SELECT * FROM accounts WHERE ${column} = $1`;
+    const result = await client.query(query, [value]);
     return result.rows;
   }
 

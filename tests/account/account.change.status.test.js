@@ -27,7 +27,7 @@ describe('Account activation tests: PATCH /account/<account-number>', () => {
       const { accountnumber } = newAccount.body.data;
       res = await chai.request(server).patch(`/api/v1/account/${accountnumber}`).set('Authorization', token).send();
     } catch (err) {
-      console.log(err);
+      res.json({ status: 500, message: `An error occured. ${err}` });
     }
   });
   it('Status 200', () => {
