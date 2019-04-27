@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Wokoro/banka_api.svg?branch=develop)](https://travis-ci.org/Wokoro/banka_api)[![Coverage Status](https://coveralls.io/repos/github/Wokoro/banka_api/badge.svg?branch=develop)](https://coveralls.io/github/Wokoro/banka_api?branch=develop)
+[![Build Status](https://travis-ci.org/Wokoro/banka_api.svg?branch=develop)](https://travis-ci.org/Wokoro/banka_api)[![Coverage Status](https://coveralls.io/repos/github/Wokoro/banka_api/badge.svg?branch=develop)](https://coveralls.io/github/Wokoro/banka_api?branch=develop)[![Maintainability](https://api.codeclimate.com/v1/badges/0cc809917dadcc83b420/maintainability)](https://codeclimate.com/github/Wokoro/banka_api/maintainability)
 # bankaApi
 Banka is a light-weight core banking application that powers banking operations like account
 creation, customer deposit and withdrawals. This app is meant to support a single bank, where
