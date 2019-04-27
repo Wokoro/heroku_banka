@@ -7,12 +7,14 @@ export default {
   * @param {string} res
   * @returns {object} returns an array of all transactions
   */
-  index(req, res) {
-    const transactions = TransactionModel.all();
-
-    if (transactions) { return res.json({ status: 200, transactions }); }
-
-    return res.json({ status: 400, message: 'No transation available' });
+  async getAllTransactions(req, res) {
+    try {
+      const transactions = await TransactionModel.getAllTransactions();
+      if (transactions.length > 0) { return res.json({ status: 200, transactions }); }
+      return res.json({ status: 400, message: 'No transation available' });
+    } catch (error) {
+      return res.json({ status: 500, message: `An error occored. ${error}` });
+    }
   },
 
   /**
@@ -21,20 +23,17 @@ export default {
   * @param {string} res
   * @returns {object} returns the transaction details if succesful
   */
-  debit(req, res) {
-    const { token } = req.body;
-    const { amount, account } = req.body;
-    const { accountNumber } = account;
-    const oldBalance = account.balance;
-    const newBalance = account.debit(amount);
-
-    const transaction = new TransactionModel('debit', amount, token.id, oldBalance, accountNumber, newBalance);
-
-    TransactionModel.save(transaction);
-
-    res.json({ status: 200, data: transaction });
+  async debitAccount(req, res) {
+    const { amount, balance, token } = req.body;
+    const { accountNumber } = req.params;
+    const newBalance = Number(balance) - Number(amount);
+    try {
+      const transactionDetails = await TransactionModel.createTransaction('debit', amount, token.id, balance, newBalance, accountNumber);
+      res.json({ message: 'Debit operation successful', status: 200, data: transactionDetails });
+    } catch (error) {
+      res.json({ status: 500, message: `An error occured. ${error}` });
+    }
   },
-
 
   /**
 * Function to get a specific transaction
@@ -42,13 +41,18 @@ export default {
 * @param {string} res
 * @returns {object} returns the transaction details if succesful
 */
-  show(req, res) {
+  async getTransaction(req, res) {
     const { transactionID } = req.params;
-    const transaction = TransactionModel.findByTransactionID(transactionID);
-    res.json({
-      status: 200,
-      data: { transaction },
-    });
+    try {
+      const result = await TransactionModel.findTransaction('id', transactionID);
+      const transaction = result[0];
+      if (result.length > 0) {
+        return res.json({ status: 200, transaction });
+      }
+      return res.json({ status: 400, message: 'Transaction does not exist' });
+    } catch (error) {
+      return res.json({ status: 500, message: `An error occured. ${error}` });
+    }
   },
 
   /**
@@ -57,17 +61,15 @@ export default {
   * @param {string} res
   * @returns {object} returns transaction details
   */
-  credit(req, res) {
-    const { token } = req.body;
-    const { amount, account } = req.body;
-    const { accountNumber } = account;
-    const oldBalance = account.balance;
-    const newBalance = account.credit(amount);
-
-    const transaction = new TransactionModel('credit', amount, token.id, oldBalance, accountNumber, newBalance);
-
-    TransactionModel.save(transaction);
-
-    res.json({ status: 200, data: transaction });
+  async creditAccount(req, res) {
+    const { amount, balance, token } = req.body;
+    const { accountNumber } = req.params;
+    const newBalance = Number(balance) + Number.parseInt(amount, 10);
+    try {
+      const transactionDetails = await TransactionModel.createTransaction('credit', amount, token.id, balance, newBalance, accountNumber);
+      res.json({ message: 'Credit operation successful', status: 200, data: transactionDetails });
+    } catch (error) {
+      res.json({ status: 500, message: `An error occured. ${error}` });
+    }
   },
 };

@@ -4,8 +4,6 @@ import chaiHttp from 'chai-http';
 
 import server from '../../server';
 
-import UserModel from '../../src/models/user.model';
-
 const { expect } = chai;
 
 chai.use(chaiHttp);
@@ -14,13 +12,10 @@ describe('User signin tests: POST /auth/signin', () => {
   after(() => { server.close(); });
   describe('tests for successful signin', () => {
     let res = {};
-
     before(async () => {
-      const user = new UserModel('douye', 'samuel', 'wokorosamuel@yahoo.com', 'samuel', '09066027359', 'client', true);
-      UserModel.save(user);
       const params = {
         email: 'wokorosamuel@yahoo.com',
-        password: 'samuel',
+        password: 'password',
       };
       res = await chai.request(server).post('/api/v1/auth/signin').send(params);
     });
@@ -34,10 +29,10 @@ describe('User signin tests: POST /auth/signin', () => {
       expect(res.body.data).to.have.property('id');
     });
     it('Response must contain firstName', () => {
-      expect(res.body.data).to.have.property('firstName');
+      expect(res.body.data).to.have.property('firstname');
     });
     it('Response must contain lastName', () => {
-      expect(res.body.data).to.have.property('lastName');
+      expect(res.body.data).to.have.property('lastname');
     });
     it('Response must contain email', () => {
       expect(res.body.data).to.have.property('email');

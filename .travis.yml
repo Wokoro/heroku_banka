@@ -4,6 +4,12 @@ language: node_js
 
 node_js: "10.15.3"
 
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database banka;' -U postgres
+  
 env:
   global: 8d244bd430ffa28ad2741d5fe368c8982098b6797da1b287be51e54fbcfb95c0
 

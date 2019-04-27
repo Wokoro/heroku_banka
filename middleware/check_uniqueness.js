@@ -1,15 +1,20 @@
 /* eslint-disable no-else-return */
 import UserModel from '../src/models/user.model';
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
   const { email } = req.body;
-  const user = UserModel.findByEmail(email);
-  if (user) {
-    res.json({
+  try {
+    const user = await UserModel.findUser('email', email);
+    if (!user[0]) {
+      return next();
+    }
+    return res.json({
       status: 409,
       message: `${email} already exist`,
     });
-  } else {
-    next();
+  } catch (err) {
+    return res.json({
+      message: `An error occured: ${err}`,
+    });
   }
 };

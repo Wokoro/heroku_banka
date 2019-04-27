@@ -1,10 +1,13 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { request } from 'http';
+import { config } from 'dotenv';
 
+config();
 
-const privateKey = process.env.PRI_KEY.replace(/\\n/g, '\n');
-const publicKey = process.env.PUB_KEY.replace(/\\n/g, '\n');
+let privateKey = process.env.PRI_KEY;
+const publicKey = process.env.PUB_KEY;
+
+privateKey = 'thisisaprivatekey';
 
 
 const issuer = 'Authorization/Resource/BankaServer';
@@ -23,20 +26,25 @@ const verifyOptions = {
   algorithm: [`[${algorithm}`],
 };
 
-const generateToken = payload => jwt.sign(payload, privateKey, signOptions);
+const generateToken = payload => jwt.sign(payload, privateKey);
 
-const verifyToken = (req, res, next) => {
+const verifyToken = token => jwt.verify(token, privateKey);
+
+const passToken = async (req, res, next) => {
   const rawToken = req.headers.authorization || req.headers['x-access-token'] || req.body.token;
+
   const token = rawToken.split(' ')[1];
-  const issureToken = jwt.verify(token, publicKey, verifyOptions);
-  if (issureToken) {
-    req.body.token = issureToken;
-    next();
-  } else {
-    res.json({
-      status: 400,
-      message: 'Invalid token',
-    });
+  try {
+    const issureToken = verifyToken(token);
+
+    if (issureToken) {
+      req.body.token = issureToken;
+      next();
+    } else {
+      res.json({ status: 400, message: 'Invalid token' });
+    }
+  } catch (error) {
+    res.json({ status: 500, message: `An error occured. ${error}` });
   }
 };
 
@@ -78,5 +86,5 @@ const hashPassword = password => bcrypt.hashSync(password, 10);
 const verifyPassword = (password, hashedPassword) => verifyPassword(password, hashedPassword);
 
 export {
-  hashPassword, verifyPassword, generateToken, verifyToken, isEmpty, trim,
+  hashPassword, verifyPassword, generateToken, passToken, verifyToken, isEmpty, trim,
 };

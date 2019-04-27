@@ -1,62 +1,45 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable padded-blocks */
 /* eslint-disable quotes */
 /* eslint-disable no-plusplus */
-import bcrypt from 'bcrypt';
-import { DBClient } from '../../db';
-
+import { client } from '../../database/db';
+import { generateToken, hashPassword } from '../../utils/utils';
 
 class User {
-  constructor(lastName, firstName, email, password, phoneNumber, type, isAdmin) {
-    this.id = ++User.index;
-    this.lastName = lastName;
-    this.firstName = firstName;
-    this.email = email;
-    this.password = bcrypt.hashSync(password, 10);
-    this.phoneNumber = phoneNumber;
-    this.type = type;
-    this.phoneNumeber = phoneNumber;
-    this.isAdmin = isAdmin;
-  }
-
-  /**
-  * Returns a users password
-  * @returns {User} User
-  */
-  getPassword() {
-    return this.password;
-  }
-
   /**
   * Find a user my email
   * @param {string} email
   * @returns {User} User
   */
-  static findByEmail(email) {
-    return User.all().find(user => user.email === email);
+  static async findUser(column, value) {
+    const query = `SELECT * FROM users WHERE ${column} = '${value}'`;
+    const result = await client.query(query);
+    const userRows = await result.rows;
+    return userRows;
   }
 
   /**
-  * Store a given user to datastore
-  * @param {User} user
-  * @returns {User} User
-  */
-  static save(user) {
-    User.store.add(user);
-  }
+   *  Create and save a given user in the database
+   *  @params{string} lastName
+   *  @params{string} firstName
+   *  @params{string} email
+   *  @params{string} password
+   *  @params{string} type
+   *  @params{boolean} isAdmin
+   *  @params{string} phoneNumber
+   *
+   * @returns {Promise}
+   */
+  static async createUser(lastName, firstName, email, password, type, isAdmin, phoneNumber) {
+    const query = `INSERT INTO users(lastname, firstname, email, password, type, isadmin, phonenumber) values($1, $2, $3, $4, $5, $6, $7) RETURNING id, lastname, firstname, email, type, isadmin, phonenumber`;
+    const userPassword = hashPassword(password);
+    const result = await client.query(query, [lastName, firstName, email,
+      userPassword, type, isAdmin, phoneNumber]);
+    const user = result.rows[0];
+    user.token = generateToken({ id: user.id, email, isAdmin });
 
-  /**
-  * Get all users
-  * @returns {Array} Users
-  */
-  static all() {
-    return [...User.store];
+    return result;
   }
 }
-
-User.index = 0;
-User.store = new Set();
-User.save(new User('Douye', 'Samuel', 'samuell@yahoo.com', 'samuel', '09066027359', 'staff', true));
-User.save(new User('Benjamin', 'Tariladou', 'benbizzy@yahoo.com', 'samuel', '09066027359', 'staff', true));
-User.save(new User('Enebimo', 'Joan', 'wokorosamuel@yahoo.com', 'samuel', '09066027359', 'staff', true));
 
 export default User;

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import bcrypt from 'bcrypt';
 import UserModel from '../src/models/user.model';
 
@@ -7,17 +8,21 @@ import UserModel from '../src/models/user.model';
  * @param {string} res,
  * @param {string} next
  */
-export default function (req, res, next) {
+export default async (req, res, next) => {
   const { email, password } = req.body;
-
-  const user = UserModel.findByEmail(email);
-
-  const userPassword = user ? bcrypt.compareSync(password, user.password) : false;
-
-  if (user && userPassword) {
-    req.user = user;
-    next();
-  } else {
-    res.json({ status: 400, message: 'User name or password incorrect' });
+  try {
+    const result = await UserModel.findUser('email', email);
+    const user = result[0];
+    const userPassword = user ? bcrypt.compareSync(password, user.password) : false;
+    if (user && userPassword) {
+      delete user.password;
+      req.user = user;
+      next();
+    } else {
+      res.json({ status: 400, message: 'User name or password incorrect' });
+    }
+  } catch (err) {
+    res.json({ status: 500, message: 'An error has occured' });
+    console.log(err);
   }
-}
+};

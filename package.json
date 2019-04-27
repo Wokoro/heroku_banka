@@ -4,12 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "nyc mocha --timeout 500 -r @babel/register  tests/**/*.test.js --exit",
+    "test": "npm run migrate && nyc mocha --timeout 600000 -r @babel/register  tests/index.js --exit",
     "build": "babel src -d build",
     "start-dev": "nodemon --exec babel-node server.js",
     "lint": "eslint **/*.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "coverage": "nyc --reporter=text-lcov --reporter=text-summary npm test"
+    "coverage": "nyc --reporter=text-lcov --reporter=text-summary npm test",
+    "migrate": "babel-node database/migrate.js"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
@@ -23,7 +24,6 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.3",
-    "dotenv": "^7.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
@@ -40,6 +40,7 @@
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "dotenv": "^7.0.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.10.0",
     "request": "^2.88.0"

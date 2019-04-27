@@ -2,8 +2,10 @@ import express from 'express';
 
 import AccountController from '../controllers/account.controller';
 import authAdmin from '../../utils/auth.staff';
-import { verifyToken } from '../../utils/utils';
+import { passToken } from '../../utils/utils';
 import { validateOpeningBalance, accountNumberValidation } from '../../middleware/account_validations';
+import authUser from '../../utils/auth.user';
+import authValidUsers from '../../middleware/account_view_authentication';
 
 
 const router = express.Router();
@@ -16,7 +18,7 @@ const router = express.Router();
 * @apiParam  {String} [startBalance] start balance of account
 * @apiParam  {String} [status] Active or domant
 */
-router.post('/accounts', validateOpeningBalance, verifyToken, AccountController.create);
+router.post('/accounts', validateOpeningBalance, passToken, AccountController.createAccount);
 
 /**
 * @api {get} /api/v1/accounts/:accountNumber   gets an account
@@ -24,7 +26,7 @@ router.post('/accounts', validateOpeningBalance, verifyToken, AccountController.
 * @apiPermission staff
 *
 */
-router.get('/accounts/:accountNumber', accountNumberValidation, verifyToken, authAdmin, AccountController.show);
+router.get('/accounts/:accountNumber', accountNumberValidation, passToken, authValidUsers, AccountController.getAccount);
 
 /**
 * @api {get} /api/v1/accounts   gets all accounts
@@ -32,22 +34,22 @@ router.get('/accounts/:accountNumber', accountNumberValidation, verifyToken, aut
 * @apiPermission admin
 *
 */
-router.get('/accounts', verifyToken, authAdmin, AccountController.index);
+router.get('/accounts', passToken, authAdmin, AccountController.getAllAccounts);
 
 /**
 * @api {patch} /api/v1/account/:accountNumber Change a specific account status
 * @apiName Change account status
-* @apiPermission admin
+* @apiPermission admin or staff
 *
 */
-router.patch('/account/:accountNumber', accountNumberValidation, verifyToken, authAdmin, AccountController.changeState);
+router.patch('/account/:accountNumber', accountNumberValidation, passToken, authUser, AccountController.changeStatus);
 
 /**
 * @api {delete} /api/v1/account/:accountNumber delete specific account
 * @apiName Delete account
 * @apiPermission admin/staff
 */
-router.delete('/account/:accountNumber', verifyToken, accountNumberValidation, authAdmin, AccountController.delete);
+router.delete('/account/:accountNumber', passToken, accountNumberValidation, authAdmin, AccountController.deleteAccount);
 
 
 export default router;

@@ -1,4 +1,5 @@
-import transactionModel from '../src/models/transaction.model';
+/* eslint-disable prefer-destructuring */
+import TransactionModel from '../src/models/transaction.model';
 
 /**
  * validates the transaction exits
@@ -7,15 +8,17 @@ import transactionModel from '../src/models/transaction.model';
  */
 
 
-function transactionNumberValidation(req, res, next) {
+const transactionNumberValidation = async (req, res, next) => {
   const { transactionID } = req.params;
-  const transaction = transactionModel.findByTransactionID(transactionID);
-
-  if (transaction) {
-    req.body.transaction = transaction;
-    return next();
+  try {
+    const transaction = await TransactionModel.findTransaction('id', transactionID);
+    if (transaction) {
+      req.body.transaction = transaction[0];
+      return next();
+    }
+    return res.json({ status: 400, message: 'Transaction does not exists' });
+  } catch (error) {
+    return res.json({ status: 500, message: `An error occured. ${error}` });
   }
-
-  return res.json({ status: 400, message: 'Transaction does exists' });
-}
+};
 export default transactionNumberValidation;

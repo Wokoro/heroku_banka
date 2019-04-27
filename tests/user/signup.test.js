@@ -17,16 +17,17 @@ describe('Create user account tests: POST /auth/signup', () => {
       const params = {
         lastName: 'samuel',
         firstName: 'douye',
-        email: 'samuel@yahoo.com',
+        email: 'wokorosamuel@yahoo.com',
         isAdmin: false,
         password: 'password',
         confirmPassword: 'password',
         type: 'client',
-        phoneNumber: '09044038475',
+        phoneNumber: 90440,
       };
       res = await chai.request(server).post('/api/v1/auth/signup').send(params);
     });
     it('Response status must be 200', () => {
+      console.log(res.body);
       expect(res.body).to.have.status(200);
     });
     it('Response must contain token', () => {
@@ -36,16 +37,16 @@ describe('Create user account tests: POST /auth/signup', () => {
       expect(res.body.data).to.have.property('id');
     });
     it('Response must contain firstName', () => {
-      expect(res.body.data).to.have.property('firstName');
+      expect(res.body.data).to.have.property('firstname');
     });
     it('Response must contain lastName', () => {
-      expect(res.body.data).to.have.property('lastName');
+      expect(res.body.data).to.have.property('lastname');
     });
     it('Response must contain email', () => {
       expect(res.body.data).to.have.property('email');
     });
     it('User account should be stored', () => {
-      expect(UserModel.findByEmail(res.body.data.email)).to.not.be.undefined;
+      expect(UserModel.findUser('email', res.body.data.email)).to.not.be.undefined;
     });
   });
   describe('tests for unsuccessful signup', () => {
@@ -59,7 +60,7 @@ describe('Create user account tests: POST /auth/signup', () => {
         password: 'password',
         confirmPassword: 'password',
         type: 'client',
-        phoneNumber: '09044038475',
+        phoneNumber: 9044038475,
       };
       res = await chai.request(server).post('/api/v1/auth/signup').send(params);
     });
