@@ -22,10 +22,10 @@ const passToken = async (req, res, next) => {
       req.body.token = issureToken;
       next();
     } else {
-      res.json({ status: 400, message: 'Invalid token' });
+      res.status(400).json({ status: 400, message: 'Invalid User token' });
     }
   } catch (error) {
-    res.json({ status: 500, message: `An error occured. ${error}` });
+    res.status(500).json({ status: 500, message: `Server errror. ${error}` });
   }
 };
 

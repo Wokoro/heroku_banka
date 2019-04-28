@@ -1,0 +1,221 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: BANKA API
+  description: API to power front-end client like the banka front-end ui
+
+schemes:
+  - https
+basePath: /api/v1
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - User
+      summary: Creates a new user account
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in: body
+          name: user
+          description: First name of the user
+          schema:
+            type: object
+            required:
+              - firstName
+              - lastName
+              - email
+              - password
+              - confirmPassword
+              - isAdmin
+              - type
+            properties:
+              lastName:
+                type: string
+                description: user's last name
+              firstName:
+                type: string
+                description: user's first name
+              email:
+                type: string
+                description: user's email
+              phoneNumber:
+                type: string
+                description: user's phone number
+              isAdmin:
+                type: boolean
+                description: whether user is admin or not
+              type:
+                type: string
+                enum: [client, staff]
+                description: whether user is a staff or client
+              password:
+                type: string
+                description: password of the user
+              confirmPassword:
+                type: string
+                description: retype password
+      responses:
+        200:
+          description: successfully created user account
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        400:
+          description: Empty fields error messages
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        409:
+          description: Email already exist
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /auth/signin:
+    post:
+      tags:
+        - User
+      summary: Log into a user account
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in : body
+          name: user
+          description: User to sign in
+          schema:
+            type: object
+            required:
+              - firstName
+              - password
+            properties:
+              email: 
+                type: string
+              password:
+                type: string
+         
+      responses:
+        200:
+          description: User signed in
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        400:
+          description: User name or password incorrect
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /user/{user-email}/accounts:
+    get:
+      tags:
+        - User
+      summary: Get all accounts a the given user specified by his email address
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in : path
+          name: user-email
+          required: true
+          description: Email address of the user
+          type: string
+         
+      responses:
+        200:
+          description: Successfully returned all the specified user bank accounts
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    transactionId:
+                      type: integer
+                    createdon:
+                      type: string
+                    type:
+                      type: string
+                      enum: [credit, debit]
+                    accountnumber:
+                      type: string
+                    amount:
+                      type: number
+                    oldbalance:
+                      type: number
+                    newbalance:
+                      type: number
+        400:
+          description: Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: when clients try to access another users account accounts
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: When trying to view account transaction of a user account that not exits.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phoneNumber:
+        type: string
+      password:
+        type: string
+      type:
+        type: string
+        enum: [client, staff]
+      isAdmin:
+        type: boolean
+  SuccessResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      successMessage:
+        type: string
+      data:
+        type: object
+  ErrorResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      errorMessage:
+        type: string
+  

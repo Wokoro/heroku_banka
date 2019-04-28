@@ -5,6 +5,7 @@ import authAdmin from '../../utils/auth.staff';
 import { passToken } from '../../utils/utils';
 import { validateAccountCreationFields, accountNumberValidation } from '../../middleware/account.validations';
 import authUser from '../../utils/auth.user';
+import EmailAuthentication from '../../middleware/authenticate.mail.presence';
 import UserRestricter from '../../middleware/restric.user';
 import authValidUsers from '../../middleware/account.view.authentication';
 
@@ -35,7 +36,7 @@ router.get('/accounts/:accountNumber', accountNumberValidation, passToken, authV
 * @apiPermission admin
 *
 */
-router.get('/accounts', passToken, UserRestricter, authAdmin, AccountController.getAllAccounts);
+router.get('/accounts', passToken, UserRestricter, AccountController.getAllAccounts);
 
 /**
 * @api {patch} /api/v1/account/:accountNumber Change a specific account status
@@ -50,7 +51,7 @@ router.patch('/account/:accountNumber', accountNumberValidation, passToken, auth
 * @apiName Delete account
 * @apiPermission admin/staff
 */
-router.delete('/account/:accountNumber', passToken, accountNumberValidation, authAdmin, AccountController.deleteAccount);
+router.delete('/accounts/:accountNumber', passToken, accountNumberValidation, authAdmin, AccountController.deleteAccount);
 
 
 export default router;

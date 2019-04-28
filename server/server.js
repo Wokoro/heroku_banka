@@ -5,6 +5,9 @@
 import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from '../swagger.config';
+
 import { initDBPool } from './database/db';
 
 import UserRoutes from './src/routers/user.routes';
@@ -13,8 +16,9 @@ import TransactionRoutes from './src/routers/transaction.routes';
 
 const app = express();
 
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 initDBPool();
 
@@ -41,6 +45,17 @@ app.use((req, res) => {
     status: 404,
     message: 'Page not found',
   });
+});
+
+// caching unsuported urls
+app.use((err, req, res, next) => {
+  if ((err instanceof URIError)) {
+    const error = {};
+    error.status = err.statusCode || 400;
+    error.message = `Bad url, failed to decode url :${req.url}`;
+    return res.send({ error });
+  }
+  res.json({ status: 400, message: `${err.constructor.name}: error has occured` });
 });
 
 const server = app.listen(process.env.PORT, () => {

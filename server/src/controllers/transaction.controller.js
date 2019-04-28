@@ -11,9 +11,9 @@ export default {
     try {
       const transactions = await TransactionModel.getAllTransactions();
       if (transactions.length > 0) { return res.json({ status: 200, transactions }); }
-      return res.json({ status: 400, message: 'No transation available' });
+      return res.status(400).json({ status: 400, message: 'No transation available' });
     } catch (error) {
-      return res.json({ status: 500, message: `An error occored. ${error}` });
+      return res.status(500).json({ status: 500, message: `An error occored. ${error}` });
     }
   },
 
@@ -29,9 +29,9 @@ export default {
     const newBalance = Number(balance) - Number(amount);
     try {
       const transactionDetails = await TransactionModel.createTransaction('debit', amount, token.id, balance, newBalance, accountNumber);
-      res.json({ message: 'Debit operation successful', status: 200, data: transactionDetails });
+      res.status(200).json({ message: 'Debit operation successful', status: 200, data: transactionDetails });
     } catch (error) {
-      res.json({ status: 500, message: `An error occured. ${error}` });
+      res.status(500).json({ status: 500, message: `An error occured. ${error}` });
     }
   },
 
@@ -64,12 +64,13 @@ export default {
   async creditAccount(req, res) {
     const { amount, balance, token } = req.body;
     const { accountNumber } = req.params;
+
     const newBalance = Number(balance) + Number.parseInt(amount, 10);
     try {
       const transactionDetails = await TransactionModel.createTransaction('credit', amount, token.id, balance, newBalance, accountNumber);
-      res.json({ message: 'Credit operation successful', status: 200, data: transactionDetails });
+      res.status(200).json({ message: 'Credit operation successful', status: 200, data: transactionDetails });
     } catch (error) {
-      res.json({ status: 500, message: `An error occured. ${error}` });
+      res.status(500).json({ status: 500, message: `An error occured. ${error}` });
     }
   },
 };

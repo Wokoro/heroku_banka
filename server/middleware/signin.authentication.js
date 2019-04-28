@@ -22,6 +22,6 @@ export default async (req, res, next) => {
       res.json({ status: 400, message: 'User name or password incorrect' });
     }
   } catch (err) {
-    res.json({ status: 500, message: `An error occured. ${err}` });
+    res.json({ status: 500, message: `Server error. ${err}` });
   }
 };

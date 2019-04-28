@@ -5,7 +5,6 @@ import signUpValidation from '../../middleware/signup.validation';
 import userUniquenessCheck from '../../middleware/check.user.account.uniqueness';
 import EmailValidation from '../../middleware/authenticate.mail.presence';
 import RemovePads from '../../middleware/remove.padding';
-import staffVerification from '../../utils/auth.staff';
 import validUserAuthentication from '../../middleware/account.view.authentication';
 import { passToken } from '../../utils/utils';
 import UserController from '../controllers/User.controller';

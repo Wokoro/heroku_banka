@@ -6,9 +6,9 @@ export default async (req, res, next) => {
   const result = await AccountModel.findAccount('accountnumber', accountNumber);
   const account = result[0];
   if (Number(account.balance) < amount) {
-    return res.json({
+    return res.status(400).json({
       status: 400,
-      message: 'Insufficient balance',
+      message: 'Insufficient fund',
     });
   }
   req.body.account = account;

@@ -8,18 +8,26 @@ export default async (req, res, next) => {
     if (EMAIL_FIELD_REG.test(userEmailAddress)) {
       const user1 = await UserModel.findUser('email', userEmailAddress);
       const user2 = await UserModel.findUser('email', email);
-      if (!!user1[0] && !!user2[0]) {
+      if (user2[0].type === 'staff') {
         return next();
-      } if (!user1[0]) {
+      }
+      if (userEmailAddress === email) {
+        return next();
+      } if (!user2[0]) {
+        return res.json({
+          status: 400,
+          message: `${email} do not exist please signup`,
+        });
+      }
+      if (!(userEmailAddress === email)) {
+        return res.json({ status: 400, message: 'Access restricted' });
+      }
+      if (!user1[0]) {
         return res.json({
           status: 400,
           message: `Resquested account ${userEmailAddress} does not exists`,
         });
       }
-      return res.json({
-        status: 400,
-        message: `${email} do not exist please signup`,
-      });
     }
     return res.json({
       status: 400,

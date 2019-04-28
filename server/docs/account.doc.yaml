@@ -1,0 +1,393 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: BANKA API
+  description: API to power front-end client like the banka front-end ui
+
+schemes:
+  - https
+basePath: /api/v1
+
+paths:
+  /accounts:
+    post:
+      tags:
+        - Account
+      summary: Creates a new user bank account.
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in: body
+          name: account
+          description: A user's bank account object
+          schema:
+            type: object
+            required:
+              - type
+              - status
+              - openingBalance
+
+            properties:
+              type:
+                type: string
+                enum: [savings, current]
+                description: The given account type either savings or current
+              openingBalance:
+                type: number
+                minimum: 1000.00
+                description: The opening amount of the bank account
+              status:
+                type: string
+                enum: [domant, active, draft]
+                description: The given state of the user account
+      responses:
+        200:
+          description: Ok.Successfully created user's bank account
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  accountNumber:
+                    type: number
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  email:
+                    type: string
+                  type:
+                    type: string
+                  openingBalance:
+                    type: string
+        400:
+          description: Invalid opening balance or Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      tags:
+        - Account
+      summary: Get all bank account
+      description: Both users and staff can use this route. For a user, all his/her account details are returned, while for a staff, all user bank accounts are returned.
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in: query
+          name: status
+          type: string
+          enum: [active]
+        - in: body
+          name: account
+          description: A users bank account object
+          schema:
+            type: number
+            
+      responses:
+        200:
+          description: Ok.Successfully return all user's bank account if query parameter (status) is specified either active or domant accounts are returned.
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    accountnumber:
+                      type: number
+                    userid:
+                      type: integer
+                    type:
+                      type: string
+                      enum: [savings, current]
+                    status:
+                      type: string
+                      enum: [active, domant, draft]
+                    balance:
+                      type: number
+                      
+        400:
+          description: Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+            
+            
+  /account/{account-number}:
+    patch:
+      tags:
+        - Account
+      summary: Deactivate or activate a user account
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in : path
+          name: account-number
+          required: true
+          type: number
+          description: User's account number which is required to change account status
+         
+      responses:
+        200:
+          description: Successfully changed bank account status
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  accountNumber:
+                    type: number
+                  status:
+                    type: string
+                  
+        400:
+          description: Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: User not a staff, or User account do not exits.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: User account do not exits.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+            
+  /accounts/{account-number}:
+    delete:
+      tags:
+        - Account
+      summary: Delete a given bank account.
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in : path
+          name: account-number
+          required: true
+          type: number
+          description: Account number of account to be deleted.
+         
+      responses:
+        200:
+          description: Ok. Successfully deleted bank account
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+                  
+        400:
+          description: Invalid account number or Invalid User token 
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: User not a staff
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: Bank account to be deleted do not exits.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      tags:
+        - Account
+      summary: Get a specific account details.
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in : path
+          name: account-number
+          required: true
+          type: number
+          description: Account number of account to be view.
+         
+      responses:
+        200:
+          description: Ok. Successfully return bank account details.
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  accountNumber:
+                    type: number
+                  id:
+                    type: integer
+                  createdon:
+                    type: string
+                  status:
+                    type: string
+                  balance:
+                    type: number
+                  
+        400:
+          description: Invalid account number or Invalid User token 
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: Access denied to view an account.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: Bank account to be view do not exits.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+            
+  /accounts/{account-number}/transaction:
+    get:
+      tags:
+        - Account
+      summary: Get all accounts transactions on this account
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - in : path
+          name: account-number
+          required: true
+          type: number
+          description: User's account number
+          
+      responses:
+        200:
+          description: Successfully returned all bank account transactions
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    transactionId:
+                      type: integer
+                    createdon:
+                      type: string
+                    type:
+                      type: string
+                      enum: [credit, debit]
+                    accountnumber:
+                      type: string
+                    amount:
+                      type: number
+                    oldbalance:
+                      type: number
+                    newbalance:
+                      type: number
+        400:
+          description: Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: when clients try to access another users account transactions
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        404:
+          description: When trying to view account transaction of a user account that not exits.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  
+    
+  
+definitions:
+  Acount:
+    type: object
+    properties:
+      accountNumber:
+        type: number
+      id:
+        type: integer
+      createdon:
+        type: string
+      owner:
+        type: integer
+      type:
+        type: string
+        enum: [savings, current]
+      status:
+        type: string
+      balance:
+        type: number
+  SuccessResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      successMessage:
+        type: string
+      data:
+        type: object
+  ErrorResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      errorMessage:
+        type: string
+  
