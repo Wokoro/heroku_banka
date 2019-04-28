@@ -19,9 +19,9 @@ export default {
       const user = result.rows[0];
       const { id } = user;
       user.token = generateToken({ id, email }, email);
-      res.json({ status: 200, data: user });
+      res.status(200).json({ message: 'Signup successfully', status: 200, data: user });
     } catch (err) {
-      res.json({ status: 500, message: `An error occured. ${err}` });
+      res.status(500).json({ status: 500, message: `An error occured. ${err}` });
     }
   },
 
@@ -34,7 +34,8 @@ export default {
   signinUser(req, res) {
     const { id, email, firstname, lastname, password } = req.user;
 
-    return res.json({
+    return res.status(200).json({
+      message: 'User signed in',
       status: 200,
       data: {
         token: generateToken({ id, email }, email),
@@ -60,11 +61,11 @@ export default {
       const { id } = await result[0];
       const userAccounts = await AccountModel.findAccount('userid', id);
       if (userAccounts.length === 0) {
-        return res.json({ status: 400, message: 'No accounts created' });
+        return res.status(400).json({ status: 400, message: 'No accounts created' });
       }
-      return res.json({ status: 200, data: { accounts: userAccounts } });
+      return res.status(200).json({ status: 200, data: { accounts: userAccounts } });
     } catch (err) {
-      return res.json({ status: 500, message: `An error occured. ${err}` });
+      return res.status(500).json({ status: 500, message: `An error occured. ${err}` });
     }
   },
 };

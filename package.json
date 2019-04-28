@@ -6,14 +6,14 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel -d ./build ./server -s",
-    "test": "npm run migrate && nyc mocha --timeout 600000 -r @babel/register  tests/index.js --exit",
+    "test": "npm run testmigrate && nyc mocha --timeout 600000 -r @babel/register  tests/index.js --exit",
     "build": "npm run clean && npm run build-server",
-    "start-dev": "nodemon --exec babel-node server.js",
+    "start-dev": "nodemon --exec babel-node ./server/server.js",
     "lint": "eslint **/*.js",
     "start": "node ./build/server.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc --reporter=text-lcov --reporter=text-summary npm test",
-    "migrate": "babel-node ./server/database/migrate.js"
+    "testmigrate": "babel-node ./server/database/migrate.js"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
@@ -31,7 +31,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "jasmine": "^3.4.0",
-    "mocha": "^6.1.3",
+    "mocha": "^6.1.4",
     "mocha-lcov-reporter": "^1.3.0",
     "node-fetch": "^2.3.0",
     "nodemon": "^1.18.11",
@@ -42,11 +42,15 @@
     "@babel/runtime": "^7.4.3",
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
     "dotenv": "^7.0.0",
+    "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.10.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "swagger-express": "^1.0.5",
+    "swagger-jsdoc": "^3.2.9",
+    "swagger-ui": "^3.22.1",
+    "swagger-ui-express": "^4.0.2"
   },
   "engines": {
     "node": "10.15.3"

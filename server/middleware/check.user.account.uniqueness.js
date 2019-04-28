@@ -8,12 +8,12 @@ export default async (req, res, next) => {
     if (!user[0]) {
       return next();
     }
-    return res.json({
+    return res.status(409).send({
       status: 409,
       message: `${email} already exist`,
     });
   } catch (err) {
-    return res.json({
+    return res.send({
       message: `An error occured: ${err}`,
     });
   }

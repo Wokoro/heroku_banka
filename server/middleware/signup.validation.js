@@ -87,7 +87,7 @@ const signUpValidation = (req, res, next) => {
   if (ERROR_MESSAGES.length === 0) {
     next();
   } else {
-    res.json({ status: 400, message: getErrorMessages() });
+    res.status(400).json({ status: 400, message: getErrorMessages() });
     ERROR_MESSAGES = [];
   }
 };

@@ -7,13 +7,14 @@ export default async (req, res, next) => {
     if (user[0].type === 'staff') {
       return next();
     }
-    return res.json({
+
+    return res.status(401).json({
       status: 401,
-      message: 'User not a staff',
+      message: 'User not a staff. Access denied',
     });
   }
-  return res.json({
-    status: 401,
-    message: 'User account do not exits please sigup',
+  return res.status(400).json({
+    status: 404,
+    message: 'Staff account do not exits please signup',
   });
 };

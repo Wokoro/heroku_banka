@@ -32,7 +32,7 @@ const validateAccountCreationFields = (req, res, next) => {
   if (!statStat) { errorMessages.push('Account stat can either be domant, active or draft'); }
 
   if (errorMessages.length === 0) { return next(); }
-  return res.json({ status: 400, message: errorMessages });
+  return res.status(400).json({ status: 400, message: errorMessages });
 };
 
 /**
@@ -41,17 +41,26 @@ const validateAccountCreationFields = (req, res, next) => {
  * @returns {boolean} returns account number if present
  */
 const accountNumberValidation = async (req, res, next) => {
-  const { accountNumber } = req.params;
+  // eslint-disable-next-line prefer-destructuring
+  // eslint-disable-next-line prefer-template
+  const accountNumber = '' + req.params.accountNumber;
   try {
+    const accountNumberCheck1 = accountNumber.length === 10;
+    const accountNumberCheck2 = Number(accountNumber);
+
+    if (!accountNumberCheck2 || !accountNumberCheck1) {
+      return res.status(400).json({ status: 400, message: 'Invalid account number. A valid account number should be an integer value and be 10 digits' });
+    }
     const result = await AccountModel.findAccount('accountnumber', accountNumber);
     const account = result[0];
     if (account) {
       req.body.balance = account.balance;
       return next();
     }
-    return res.json({ status: 400, message: 'Account do not exists' });
+
+    return res.status(400).json({ status: 404, message: 'Bank account do not exists' });
   } catch (err) {
-    return res.json({ status: 500, message: `An error occured. ${err}` });
+    return res.status(500).json({ status: 500, message: `Server error. ${err}` });
   }
 };
 

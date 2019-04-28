@@ -80,7 +80,7 @@ export default {
      await AccountModel.delete(accountNumber);
       res.json({ status: 200, message: 'Account Deleted' });
     } catch (err) {
-      res.json({ status: 400, message: `Unable to Deleted account ${err}` });
+      res.json({ status: 500, message: `Unable to Deleted account ${err}` });
     }
   },
 
