@@ -1,12 +1,32 @@
 {
-  "name": "banka_api",
+  "name": "banka_app_server",
   "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "babel-node server.js"
+  "description": "Server for the Banka App",
+  "main": "index.js",
+  "engines": {
+    "node": "10"
   },
-  "author": "Wokoro Douye Samuel",
-  "license": "ISC",
+  "nyc": {
+    "require": [
+      "@babel/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "scripts": {
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 20000 --exit",
+    "test:watch": "mocha -w test/",
+    "dev": "cross-env NODE_ENV=development nodemon index.js --exec babel-node",
+    "start": "babel-node index.js",
+    "lint": "eslint --fix",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
+  },
+  "author": "Wokoro Samuel",
+  "license": "MIT",
   "devDependencies": {
     "babel-plugin-istanbul": "^5.1.2",
     "chai": "^4.2.0",
@@ -33,6 +53,7 @@
     "@babel/register": "^7.4.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
+    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
@@ -46,12 +67,9 @@
     "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.2"
   },
-  "engines": {
-    "node": "10.15.3"
-  },
-  "directories": {
-    "doc": "docs"
-  },
-  "keywords": [],
-  "description": ""
+  "nodemonConfig": {
+    "ignore": [
+      "data/*.json"
+    ]
+  }
 }

@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
-import 'dotenv/config';
+import { config } from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -13,6 +13,8 @@ import { initDBPool } from './database/db';
 import UserRoutes from './src/routers/user.routes';
 import AccountRoutes from './src/routers/account.routes';
 import TransactionRoutes from './src/routers/transaction.routes';
+
+config();
 
 const app = express();
 
