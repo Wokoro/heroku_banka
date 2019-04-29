@@ -2,9 +2,9 @@
   "name": "banka_api",
   "version": "1.0.0",
   "description": "",
-  "main": "./build/server.js",
+  "main": "./server.js",
   "scripts": {
-    "start": "babel-node ./build/server.js"
+    "start": "babel-node server.js"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",

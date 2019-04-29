@@ -6,7 +6,7 @@ import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from '../swagger.config';
+import swaggerSpec from './swagger.config';
 
 import { initDBPool } from './database/db';
 
