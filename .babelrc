@@ -1,9 +1,9 @@
 {
-    "presets": ["@babel/preset-env"],
     "plugins": [
         "@babel/plugin-transform-runtime"
     ],
     "ignore": [
         "./node_modules","./UI", "./test",
       ]
+	  "presets": ["env"]
 }

@@ -4,6 +4,9 @@
   "description": "",
   "main": "./server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js --exec babel-node", //for spinning up dev server which updates using Nodemon
+    "heroku-postbuild": "npm install", //called automatically when application is build on Heroku server
     "start": "babel-node server.js"
   },
   "author": "Wokoro Douye Samuel",
@@ -24,7 +27,7 @@
     "nodemon": "^1.18.11",
     "nyc": "^13.3.0"
   },
-  "dependencies": { 
+  "dependencies": {
     "@babel/preset-env": "^7.4.3",
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
