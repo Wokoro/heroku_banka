@@ -1,0 +1,262 @@
+paths:
+  /transactions/:
+    get:
+      tags:
+        - Trasaction
+      summary: Get all that transactions that has occured in all bank accounts.
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+
+      responses:
+        200:
+          description: Ok.Successfully returned all user's bank account transactions
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    transactionid:
+                      type: integer
+                    accountnumber:
+                      type: string
+                    amount:
+                      type: number
+                    cashier:
+                      type: integer
+                    transactionsType:
+                      type: string
+                    accountBalance:
+                      type: string
+        400:
+          description: Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: User not a staff, or User account do not exits
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /transactions/{account-number}/debit:
+    post:
+      tags:
+        - Trasaction
+      summary: Debit a user account
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - name: account-number
+          in: path
+          required: true
+          type: number
+        - in: body
+          name: amount
+          required: true
+          schema:
+            type: number
+          
+      responses:
+        200:
+          description: Ok.Successfully debited user's bank account
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  transactionid:
+                    type: integer
+                  accountnumber:
+                    type: string
+                  amount:
+                    type: number
+                  cashier:
+                    type: integer
+                  transactionsType:
+                    type: string
+                  accountBalance:
+                    type: string
+        400:
+          description: Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: User not a staff, or User account do not exits
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /transactions/{account-number}/credit:
+    post:
+      tags:
+        - Trasaction
+      summary: Credit a user account
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - name: account-number
+          in: path
+          required: true
+          type: number
+        - in: body
+          name: amount
+          required: true
+          schema:
+            type: number
+          
+      responses:
+        200:
+          description: Ok.Successfully credited user's bank account
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  transactionid:
+                    type: integer
+                  accountnumber:
+                    type: string
+                  amount:
+                    type: number
+                  cashier:
+                    type: integer
+                  transactionsType:
+                    type: string
+                  accountBalance:
+                    type: string
+        400:
+          description: Invalid User token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: User not a staff
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  
+  /transactions/{transaction-id}:
+    get:
+      tags:
+        - Trasaction
+      summary: Get a specified transaction details
+      
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+        
+      parameters:
+        - name: transaction-id
+          in: path
+          required: true
+          type: integer
+          
+      responses:
+        200:
+          description: Ok.Successfully return transaction details
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  transactionid:
+                    type: integer
+                  accountnumber:
+                    type: string
+                  amount:
+                    type: number
+                  cashier:
+                    type: integer
+                  transactionsType:
+                    type: string
+                  accountBalance:
+                    type: string
+        400:
+          description: Invalid User token or Insufficient fund in an account
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: User not a staff, or User account do not exits
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error. <error message>
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    
+definitions:
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: integer
+      accountnumber:
+        type: number
+      createdon:
+        type: string
+      type:
+        type: string
+        enum: [saving, current]
+      cashier:
+        type: integer
+      amount:
+        type: number
+      oldbalance:
+        type: number
+      newbalance:
+        type: number
+        
+  SuccessResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      successMessage:
+        type: string
+      data:
+        type: object
+  ErrorResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      errorMessage:
+        type: string
+  
