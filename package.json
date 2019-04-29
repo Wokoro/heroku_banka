@@ -4,9 +4,7 @@
   "description": "",
   "main": "./build/server.js",
   "scripts": {
-    "
-    "start": "babel-node ./build/server.js",
-    
+    "start": "babel-node ./build/server.js"
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
