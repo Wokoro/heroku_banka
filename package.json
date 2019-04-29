@@ -4,21 +4,14 @@
   "description": "",
   "main": "./build/server.js",
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d ./build ./server -s",
-    "test": "npm run testmigrate && nyc mocha --timeout 600000 -r @babel/register  tests/index.js --exit",
-    "start-dev": "nodemon --exec babel-node ./server/server.js",
-    "lint": "eslint **/*.js",
+    "
     "start": "babel-node ./build/server.js",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "coverage": "nyc --reporter=text-lcov --reporter=text-summary npm test",
-    "testmigrate": "babel-node ./server/database/migrate.js"
+    
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.4.3",
-    
     "@babel/register": "^7.4.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
