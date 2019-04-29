@@ -13,7 +13,7 @@ const configDB = {
   idleTimeoutMillis: process.env.DB_IDLETIMEOUTMILLIS,
 };
 
-const pool = new pg.Pool(configDB);
+const pool = new pg.Pool(process.env.DATABASE_URL);
 
 const client = pool;
 
