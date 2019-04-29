@@ -7,7 +7,7 @@
   },
   "author": "Wokoro Douye Samuel",
   "license": "ISC",
-   "devDependencies": {
+  "devDependencies": {
     "babel-plugin-istanbul": "^5.1.2",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
