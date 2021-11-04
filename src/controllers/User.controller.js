@@ -6,21 +6,30 @@ import AccountModel from '../models/account.model';
 
 
 export default {
-/**
- * Creates user account
- * @param {string} req
- * @param {string} res
- * @returns {object} object containing status code and created user details
- */
+  /**
+   * Creates user account
+   * @param {string} req
+   * @param {string} res
+   * @returns {object} object containing status code and created user details
+   */
   async createUser(req, res) {
-    const { lastName, firstName, email, password, phoneNumber, type, isAdmin } = req.body;
     try {
+      const { lastName, firstName, email, password, phoneNumber, type, isAdmin } = req.body;
+
+      const savedUser = await UserModel.findUser('email', email);
+      if (savedUser.length !== 0) return res.status(409).json({
+        message: 'User already Exist',
+        status: 409,
+        data: 'User already exists'
+      });
+
       const result = await UserModel.createUser(lastName, firstName, email, password, type, isAdmin, phoneNumber);
-      const user = result.rows[0];
-      const { id } = user;
-      user.token = generateToken({ id, email }, email);
+      const user = { lastName, firstName, email, password, phoneNumber, type, isAdmin };
+
+      user.token = generateToken({ email }, email);
       res.status(200).json({ message: 'Signup successfully', status: 200, data: user });
     } catch (err) {
+
       res.status(500).json({ status: 500, message: `An error occured. ${err}` });
     }
   },

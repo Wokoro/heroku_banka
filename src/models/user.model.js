@@ -12,10 +12,9 @@ class User {
   * @returns {User} User
   */
   static async findUser(column, value) {
-    const query = `SELECT * FROM users WHERE ${column} = $1`;
-    const result = await client.query(query, [value]);
-    const userRows = await result.rows;
-    return userRows;
+    const query = `SELECT * FROM users WHERE ${column} = ?`;
+    const [result] = await client.query(query, [value]);
+    return result;
   }
 
   /**
@@ -31,12 +30,9 @@ class User {
    * @returns {Promise}
    */
   static async createUser(lastName, firstName, email, password, type, isAdmin, phoneNumber) {
-    const query = `INSERT INTO users(lastname, firstname, email, password, type, isadmin, phonenumber) values($1, $2, $3, $4, $5, $6, $7) RETURNING id, lastname, firstname, email, type, isadmin, phonenumber`;
+    const query = `INSERT INTO users(lastname, firstname, email, password, type, isadmin, phonenumber) values(?, ?, ?, ?, ?, ?, ?);`;
     const userPassword = hashPassword(password);
-    const result = await client.query(query, [lastName, firstName, email,
-      userPassword, type, isAdmin, phoneNumber]);
-    const user = result.rows[0];
-    user.token = generateToken({ id: user.id, email, isAdmin });
+    const [result] = await client.execute(query, [lastName, firstName, email, userPassword, type, isAdmin, phoneNumber]);
 
     return result;
   }

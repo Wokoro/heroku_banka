@@ -19,7 +19,7 @@ const router = express.Router();
 * @apiParam  {object} user details
 */
 
-router.post('/signup', RemovePads, userUniquenessCheck, signUpValidation, UserController.createUser);
+router.post('/signup', UserController.createUser);
 
 /**
 * @api {post} /api/v1/auth/signin Sign a given user account

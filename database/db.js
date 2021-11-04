@@ -2,20 +2,13 @@
 /* eslint-disable no-console */
 
 import { config } from 'dotenv';
-import pg from 'pg';
+import mysql from 'mysql2';
 
 config();
-const configDB = {
-  user: process.env.DB_USER,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  max: process.env.DB_MAX,
-  idleTimeoutMillis: process.env.DB_IDLETIMEOUTMILLIS,
-};
 
-const pool = new pg.Pool(process.env.DATABASE_URL);
+var pool = mysql.createConnection(process.env.DATABASE_URL);
 
-const client = pool;
+const client = pool.promise();
 
 const userTable = `CREATE TABLE IF NOT EXISTS
             users(
@@ -51,27 +44,37 @@ const transactionTable = `CREATE TABLE IF NOT EXISTS
                       newBalance FLOAT NOT NULL
                     );`;
 
-async function initDBPool() {
+function initDBPool() {
   try {
-    await pool.query(userTable);
-    await pool.query(accountTable);
-    await pool.query(transactionTable);
+    pool.query(userTable, function (err, results, fields) {
+      console.log(results); // fields contains extra meta data about results, if available
+    });
+
+    pool.query(accountTable, function (err, results, fields) {
+      console.log(results); // results contains rows returned by server
+    });
+
+    pool.query(transactionTable, function (err, results, fields) {
+      console.log(results); // results contains rows returned by server
+    });
+
+    console.log('Tables created successfully');
   } catch (err) {
-    console.log(err);
+
+    console.log('Unable to create tables: ', err);
   }
 }
-async function dropTables() {
+function dropTables() {
   const query1 = 'TRUNCATE transactions CASCADE';
   const query2 = 'TRUNCATE accounts CASCADE';
   const query3 = 'TRUNCATE users CASCADE';
   try {
-    await pool.query(query1);
-    await pool.query(query2);
-    await pool.query(query3);
+    pool.query(query1);
+    pool.query(query2);
+    pool.query(query3);
   } catch (error) {
     console.log(error);
   }
 }
-
 
 export { initDBPool, client, dropTables };

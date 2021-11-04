@@ -4,7 +4,7 @@
   "description": "Server for the Banka App",
   "main": "index.js",
   "engines": {
-    "node": "10"
+    "node": "14"
   },
   "nyc": {
     "require": [
@@ -20,7 +20,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc mocha --timeout 20000 --exit",
     "test:watch": "mocha -w test/",
-    "dev": "cross-env NODE_ENV=development nodemon index.js --exec babel-node",
+    "dev": "cross-env NODE_ENV=development nodemon index.js --exec ./node_modules/.bin/babel-node",
     "start": "babel-node index.js",
     "lint": "eslint --fix",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
@@ -51,9 +51,9 @@
     "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/register": "^7.4.0",
+    "bcrypt": "^3.0.5",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
-    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
@@ -61,9 +61,9 @@
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
+    "mysql2": "^2.3.2",
     "node-fetch": "^2.3.0",
     "nodemailer": "^6.1.0",
-    "pg": "^7.9.0",
     "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.2"
   },
