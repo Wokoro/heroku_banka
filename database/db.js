@@ -47,15 +47,15 @@ const transactionTable = `CREATE TABLE IF NOT EXISTS
 function initDBPool() {
   try {
     pool.query(userTable, function (err, results, fields) {
-      console.log(results); // fields contains extra meta data about results, if available
+      // console.log(results); // fields contains extra meta data about results, if available
     });
 
     pool.query(accountTable, function (err, results, fields) {
-      console.log(results); // results contains rows returned by server
+      // console.log(results); // results contains rows returned by server
     });
 
     pool.query(transactionTable, function (err, results, fields) {
-      console.log(results); // results contains rows returned by server
+      // console.log(results); // results contains rows returned by server
     });
 
     console.log('Tables created successfully');
@@ -64,6 +64,7 @@ function initDBPool() {
     console.log('Unable to create tables: ', err);
   }
 }
+
 function dropTables() {
   const query1 = 'TRUNCATE transactions CASCADE';
   const query2 = 'TRUNCATE accounts CASCADE';

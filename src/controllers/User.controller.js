@@ -16,8 +16,8 @@ export default {
     try {
       const { lastName, firstName, email, password, phoneNumber, type, isAdmin } = req.body;
 
-      const savedUser = await UserModel.findUser('email', email);
-      if (savedUser.length !== 0) return res.status(409).json({
+      const savedUsers = await UserModel.findUser('email', email);
+      if (savedUsers.length !== 0) return res.status(409).json({
         message: 'User already Exist',
         status: 409,
         data: 'User already exists'
@@ -27,6 +27,8 @@ export default {
       const user = { lastName, firstName, email, password, phoneNumber, type, isAdmin };
 
       user.token = generateToken({ email }, email);
+
+      // send email to {email} specified 
       res.status(200).json({ message: 'Signup successfully', status: 200, data: user });
     } catch (err) {
 

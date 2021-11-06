@@ -5,44 +5,14 @@
 import { config } from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 
 import { initDBPool } from './database/db';
 
 import UserRoutes from './src/routers/user.routes';
-import AccountRoutes from './src/routers/account.routes';
-import TransactionRoutes from './src/routers/transaction.routes';
 
 config();
 
 const app = express();
-
-const swaggerDefinition = {
-  info: {
-    title: 'Banka Swagger API',
-    version: '1.0.0',
-    description: 'Documentation for the Banka App',
-  },
-  securityDefinitions: {
-    bearerAuth: {
-      type: 'apiKey',
-      name: 'Authorization',
-      scheme: 'bearer',
-      in: 'header',
-    },
-  },
-};
-
-const options = {
-  swaggerDefinition,
-  apis: ['./docs/*.yaml'],
-};
-
-const swaggerData = swaggerJSDoc(options);
-
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerData));
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,8 +33,6 @@ app.use((req, res, next) => {
 // Routes defination
 app.use('/api/v1/auth', UserRoutes);
 app.use('/api/v1/user', UserRoutes);
-app.use('/api/v1/transactions', TransactionRoutes);
-app.use('/api/v1/', AccountRoutes);
 
 // caching unsuported urls
 app.use((req, res) => {

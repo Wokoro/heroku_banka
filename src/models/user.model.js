@@ -32,7 +32,7 @@ class User {
   static async createUser(lastName, firstName, email, password, type, isAdmin, phoneNumber) {
     const query = `INSERT INTO users(lastname, firstname, email, password, type, isadmin, phonenumber) values(?, ?, ?, ?, ?, ?, ?);`;
     const userPassword = hashPassword(password);
-    const [result] = await client.execute(query, [lastName, firstName, email, userPassword, type, isAdmin, phoneNumber]);
+    const [result] = await client.query(query, [lastName, firstName, email, userPassword, type, isAdmin, phoneNumber]);
 
     return result;
   }
